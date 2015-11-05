@@ -253,7 +253,7 @@ public class DbManager {
 		catch(Exception e ){
 			e.printStackTrace();
 		}
-		//holaholasrdtfcvjydhfdgfkgjyfhkvj,hg
+		//holaholasrdtfcvjydhfdgfkgjyfhkvj,hg jeeeeFFFEEEEEEEDE
 		
 		
 		

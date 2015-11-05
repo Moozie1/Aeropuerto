@@ -12,7 +12,6 @@ public class Equipaje {
 		this.peso = peso;
 		this.color = color;
 	}
-
 	public Equipaje() {
 		super();
 	}
