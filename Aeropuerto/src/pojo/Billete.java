@@ -42,12 +42,53 @@ public class Billete {
 	public void setAsiento(int asiento) {
 		this.asiento = asiento;
 	}
-	public String getVuelo(){
-		return vuelo.toString(); //La verdad que no estoy muy seguro de que este get sea necesario..
+	public Vuelo getVuelo(){
+		return vuelo; //La verdad que no estoy muy seguro de que este get sea necesario..
 	}
 	
 	public void setVuelo(Vuelo vuelo){
-		this.vuelo=vuelo; //y esto es un buen triple
+		this.vuelo=vuelo; 
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + asiento;
+		result = prime * result + ((clase == null) ? 0 : clase.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((pasajero == null) ? 0 : pasajero.hashCode());
+		result = prime * result + ((vuelo == null) ? 0 : vuelo.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Billete other = (Billete) obj;
+		if (asiento != other.asiento)
+			return false;
+		if (clase == null) {
+			if (other.clase != null)
+				return false;
+		} else if (!clase.equals(other.clase))
+			return false;
+		if (id != other.id)
+			return false;
+		if (pasajero == null) {
+			if (other.pasajero != null)
+				return false;
+		} else if (!pasajero.equals(other.pasajero))
+			return false;
+		if (vuelo == null) {
+			if (other.vuelo != null)
+				return false;
+		} else if (!vuelo.equals(other.vuelo))
+			return false;
+		return true;
 	}
 	public String getPasajero(){
 		return pasajero.toString();

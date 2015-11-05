@@ -243,12 +243,15 @@ public class DbManager {
 		
 		try{
 		//QUE PASA AQUI?¿?
-		Statement stmt1 = c.createStatement();
+		//Statement stmt1 = c.createStatement();
 		String sql = "Insert into Aerolinea(nombre, aeropuertoBase, nacionalidad)" + "values (?,?,?);";
 		PreparedStatement  p = c.prepareStatement(sql);
 		p.setString(1, aerolinea.getNombre());
 		p.setString(2, aerolinea.getAeropuertoBase());
 		p.setString(3, aerolinea.getNacionalidad());
+		p.executeUpdate();
+		c.close();
+		
 		}
 		catch(Exception e ){
 			e.printStackTrace();
