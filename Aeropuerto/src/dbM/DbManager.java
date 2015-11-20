@@ -86,6 +86,7 @@ public class DbManager {
 			trabajador.add(trb);
 			}
 			
+			
 			c.close();
 			
 		}
