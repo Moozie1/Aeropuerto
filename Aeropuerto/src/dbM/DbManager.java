@@ -297,7 +297,7 @@ public class DbManager {
 	public void createTablaAvion(){
 		try{
 		Statement stm=c.createStatement();
-		String sql="create table Avion("  // taller_id REFERENCES contrato(id) ON UPDATE CASCADE ON DELETE SET NULL)
+		String sql="create table Avion("; // taller_id REFERENCES contrato(id) ON UPDATE CASCADE ON DELETE SET NULL)
 		stm.executeQuery(sql);
 		
 		c.close();
@@ -307,7 +307,7 @@ public class DbManager {
 		}
 	}
 	
-	public void insertTablaAvion(){
+	public void insertTablaAvion(Avion avion){
 		try{
 		String sql="INSERT into avion(aerolinea, modelo)"+"values(?,?);";
 		PreparedStatement p=c.prepareStatement(sql);
@@ -357,12 +357,12 @@ public class DbManager {
 		}
 		
 	}
-	public void insertTablaBillete(){
+	public void insertTablaBillete(Billete billete){
 		String sql="INSERT into BILLETE(clase, asiento, vuelo, pasajero,)"+"values(?,?,?,?);";
 		try {
 			PreparedStatement prep=c.prepareStatement(sql);
-			//prep.setString(1, billete.getClase());
-			//prep.setInt(2, billete.getAsiento());
+			prep.setString(1, billete.getClase());
+			prep.setInt(2, billete.getAsiento());
 			//prep.setVuelo
 			//prep.setPasajero
 			prep.executeUpdate();
@@ -432,7 +432,7 @@ public class DbManager {
 		}
 	}
 	
-	public List<Equipaje> insertEquipaje(){
+	public List<Equipaje> selectEquipaje(){
 		List<Equipaje> listaEquipaje=new ArrayList<Equipaje>();
 		try{
 			Statement stm=c.createStatement();
@@ -482,7 +482,7 @@ public class DbManager {
 		}
 	}
 		
-	public void insertTablePasajero(){
+	public void insertTablePasajero(Pasajero pasajero){
 		String sql="INSERT into PASAJERO(nombre, nacionalidad, sexo, npasaporte, fechaDeNacimiento"+"values(?,?,?,?,?);";//COMPROBAR
 		try{
 		PreparedStatement pstm=c.prepareStatement(sql);
@@ -490,7 +490,7 @@ public class DbManager {
 		pstm.setString(2, pasajero.getNacionalidad());
 		pstm.setString(3, pasajero.getSexo());
 		pstm.setInt(4, pasajero.getNPasaporte());
-		pstm.setDate(5, fechaDeNacimiento);
+		pstm.setDate(5, fechaDeNacimiento());
 		pstm.executeUpdate();
 		c.close();
 	
@@ -550,7 +550,7 @@ public class DbManager {
 			}
 		}
 		
-		public void insertTablaTerminal(){
+		public void insertTablaTerminal(Terminal terminal){
 			String sql="INSERT into TERMINAL(nombre, numeroDePistas)"+"values(?,?);"; // COMPROBAR ESTO
 			try{
 			PreparedStatement pstm=c.prepareStatement(sql);
@@ -612,12 +612,12 @@ public class DbManager {
 			}
 		}
 		
-		public void insertTablaVuelo(){
+		public void insertTablaVuelo(Vuelo vuelo){
 			String sql="INSERT into VUELO(avion, terminal)"+"values(?,?);"; //comprobar también
 			try{
 				PreparedStatement pstm=c.prepareStatement(sql);
-				pstm.setAvion(1, vuelo.getAvion());
-				pstm.setTerminal(2, vuelo.getTerminal());
+				pstm.setObject(1, vuelo.getAvion());
+				pstm.setObject(2, vuelo.getTerminal());
 				pstm.executeUpdate();
 				c.close();
 			}
@@ -633,17 +633,17 @@ public class DbManager {
 			Statement stm=c.createStatement();
 			ResultSet rs=stm.executeQuery(sql);
 			while(rs.next()){
-			
-			Avion avion=rs.getAvion();
-			Terminal terminal=rs.getTerminal("terminal");
-			Vuelo vuelo1=new Vuelo(avion, terminal);
-			listaVuelo.add(vuelo1);
+				Vuelo v = (Vuelo)rs.getObject(0);
+			//Avion avion=(Avion)rs.getObject(0);
+			//Terminal terminal=rs.getTerminal("terminal");
+			//Vuelo vuelo1=new Vuelo(avion, terminal);
+			listaVuelo.add(v);
 			}
 			}
 			catch(Exception e){
 				e.printStackTrace();
 			}
-			
+			return listaVuelo;
 		}
 		
 		
