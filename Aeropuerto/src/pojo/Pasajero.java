@@ -7,7 +7,7 @@ public class Pasajero {
 	private String nombre, nacionalidad, sexo;
 	private int id, nPasaporte;
 	private Date fechaDeNacimiento;
-	public Pasajero(String nombre, String nacionalidad, String sexo, int id, int nPasaporte, Date fechaDeNacimiento) {
+	public Pasajero(int id, String nombre, String nacionalidad, String sexo, int nPasaporte, Date fechaDeNacimiento) {
 		super();
 		this.nombre = nombre;
 		this.nacionalidad = nacionalidad;
@@ -109,6 +109,12 @@ public class Pasajero {
 	}
 	public void setFechaDeNacimiento(Date fechaDeNacimiento) {
 		this.fechaDeNacimiento = fechaDeNacimiento;
+	}
+	public int getNPasaporte(){
+		return nPasaporte;
+	}
+	public void setNPasaporte(int nPasaporte){
+		this.nPasaporte=nPasaporte;
 	}
 
 }
