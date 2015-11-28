@@ -170,8 +170,8 @@ public class DbManager {
 		try {
 			stmt1 = c.createStatement();
 
-			String p = "create table MODELO (" + "id integrer primary key autoincrement, " + "asiento integrer not null,"
-					+ "nombre text not null," + "capacidad integrer not null,"  
+			String p = "create table MODELO (" + "id integer primary key autoincrement, " + "asiento integer not null,"
+					+ "nombre text not null," + "capacidad integer not null,"  
 					+ ")" + ";";
 			stmt1.executeUpdate(p);
 			stmt1.close();
@@ -490,7 +490,7 @@ public class DbManager {
 		pstm.setString(2, pasajero.getNacionalidad());
 		pstm.setString(3, pasajero.getSexo());
 		pstm.setInt(4, pasajero.getNPasaporte());
-		pstm.setDate(5, fechaDeNacimiento());
+		pstm.setDate(5, pasajero.getFechaDeNacimiento());
 		pstm.executeUpdate();
 		c.close();
 	
@@ -555,7 +555,7 @@ public class DbManager {
 			try{
 			PreparedStatement pstm=c.prepareStatement(sql);
 			pstm.setString(1, terminal.getNombre());
-			pstm.setInt(2, terminal.getNumeroDePistas);
+			pstm.setInt(2, terminal.getNumeroDePistas());
 			pstm.executeUpdate();
 			c.close();
 			}
