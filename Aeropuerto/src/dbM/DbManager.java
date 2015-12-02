@@ -414,11 +414,11 @@ public class DbManager {
 	public void createTablaEquipaje(){
 		try{
 		Statement stm=c.createStatement();
-		String sql="CREATE table EQUIPAJE(CREATE table EQUIPAJE(id integer primary key autoincrement"
+		String sql="CREATE table EQUIPAJE(id integer primary key autoincrement,"
 				+ "DIMENSION integer not null, PESO integer not null, COLOR text not null,"
 				+ "pasajero_id integer REFERENCES pasajero(id) ON UPDATE CASCADE ON DELETE SET NULL,"
 				+ "vuelo_id integer REFERENCES pasajero(id) ON UPDATE CASCADE ON DELETE SET NULL);"; 
-		stm.executeQuery(sql);
+		stm.executeUpdate(sql);
 		stm.close();
 		}
 		catch(Exception e){
@@ -483,9 +483,11 @@ public class DbManager {
 	public void createTablaPasajero(){
 		try{
 		Statement stm=c.createStatement();
-		String sql="CREATE table PASAJERO("; //TERMINAR
-		stm.executeQuery(sql);
-		c.close();
+		String sql="CREATE table PASAJERO(ID integer primary key autoincrement, NOMBRE text not null,"
+				+ "NACIONALIDAD text default internacional, NPASAPORTE integer not null, SEXO text not null,"
+				+ "FechaNacimiento date);"; 
+		stm.executeUpdate(sql);
+		stm.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -549,9 +551,10 @@ public class DbManager {
 		public void createTablaTerminal(){
 			try{
 				Statement stm=c.createStatement();
-				String sql="CREATE table TERMINAL("; // TERMINARR FHIUFHIUEHIUFHIUHFUIH
-				stm.executeQuery(sql);
-				c.close();
+				String sql="CREATE table TERMINAL(ID integer primary key autoincrement,"
+						+ "NOMBRE text not null, nPistas integer not null);"; 
+				stm.executeUpdate(sql);
+				stm.close();
 				
 			}
 			catch(Exception e){
@@ -613,9 +616,12 @@ public class DbManager {
 		public void createTablaVuelo(){
 			try{
 			Statement stm=c.createStatement();
-			String sql="CREATE table VUELO("; // TERMINARRR
-			stm.executeQuery(sql);
-			c.close();
+			String sql="CREATE table VUELO(ID integer primary key autoincrement,"
+					+ "id_terminal integer REFERENCES terminal(id) ON UPDATE CASCADE ON DELETE SET NULL,"
+					+ "id_avion integer REFERENCES avion(id) ON UPDATE CASCADE ON DELETE SET NULL,"
+					+ "id_pista integer REFERENCES pista(id) ON UPDATE CASCADE ON DELETE SET NULL);"; 
+			stm.executeUpdate(sql);
+			stm.close();
 			}
 			catch(Exception e){
 				e.printStackTrace();
