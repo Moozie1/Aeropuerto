@@ -68,7 +68,7 @@ public class DbManager {
 			prep.setDate(4, trabajador.getFechaInicioTrabajo());
 			
 			prep.executeUpdate();
-			c.close();
+			prep.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -93,7 +93,7 @@ public class DbManager {
 			}
 			
 			
-			c.close();
+			stmt5.close();
 			
 		}
 		catch(Exception e){
@@ -170,12 +170,13 @@ public class DbManager {
 		try {
 			stmt1 = c.createStatement();
 
-			String p = "create table MODELO (" + "id integer primary key autoincrement, " + "asiento integer not null,"
-					+ "nombre text not null," + "capacidad integer not null,"  
-					+ ")" + ";";
+			String p = "create table MODELO (id integer primary key autoincrement, asiento integer not null,"
+					+ "nombre text not null," + "capacidad integer not null);";
 			stmt1.executeUpdate(p);
+			
 			stmt1.close();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -236,11 +237,11 @@ public class DbManager {
 		try{
 			Statement stmt1 = c.createStatement();
 			
-			String sql = "create table Aerolinea (" + "id integrer, " + "nombre text not null," 
+			String sql = "create table AEROLINEA (" + "id integer, " + "nombre text not null," 
 			+ "aeropuertoBase text not null,"+"nacionalidad text default internacional,"
-					+ "primary key (id)" + ")" + ";";
-			stmt1.executeQuery(sql);
-			c.close();
+					+ "primary key (id));";
+			stmt1.executeUpdate(sql);
+			stmt1.close();
 		    }
 		catch(Exception e){
 			e.printStackTrace();
@@ -296,11 +297,14 @@ public class DbManager {
 	
 	public void createTablaAvion(){
 		try{
-		Statement stm=c.createStatement();
-		String sql="create table Avion("; // taller_id REFERENCES contrato(id) ON UPDATE CASCADE ON DELETE SET NULL)
-		stm.executeQuery(sql);
+		Statement stmt2= c.createStatement();
+		String sql="create table AVION(id integer primary key autoincrement,"
+				+ " modelo_id REFERENCES modelo(id)," 
+				+ " aerolinea_id REFERENCES aerolinea(id) ON UPDATE CASCADE ON DELETE SET NULL);"; 
+		// taller_id REFERENCES contrato(id) ON UPDATE CASCADE ON DELETE SET NULL)
+		stmt2.executeUpdate(sql);
 		
-		c.close();
+		stmt2.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -314,7 +318,7 @@ public class DbManager {
 		p.setAerolinea(1, avion.getAerolinea()); // es de tres
 		p.setModelo(2, avion.getModelo()); // otro más de 3
 		p.executeUpdate();
-		c.close();
+		p.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -336,7 +340,7 @@ public class DbManager {
 			Avion av1=new Avion(id, aerolinea, modelo);
 			ListaAvion.add(av1);
 			}	
-			c.close();
+			stm.close();
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -348,9 +352,12 @@ public class DbManager {
 	public void createTablaBillete(){        //******falta el SQL******
 		try {
 			Statement stm=c.createStatement();
-			String sql=""; //AQUÍ
-			stm.executeQuery(sql);
-			c.close();
+			String sql="create table BILLETE(ID integer primary key autoincrement, ASIENTO integer not null, CLASE text not null,"
+					+ "pasajero_id integer REFERENCES pasajero(id) ON UPDATE CASCADE ON DELETE SET NULL,"
+					+ "vuelo_id integer REFERENCES vuelo(id) ON UPDATE CASCADE ON DELETE SET NULL);";
+			
+			stm.executeUpdate(sql);
+			stm.close();
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -404,12 +411,15 @@ public class DbManager {
 	//----------------------------------------------------EQUIPAJE-------------------------------------------------
 	
 	
-	public void createTableEquipaje(){
+	public void createTablaEquipaje(){
 		try{
 		Statement stm=c.createStatement();
-		String sql="CREATE table EQUIPAJE("; // T.E.R.M.I.N.A.R.R.R.R.R.R.R
+		String sql="CREATE table EQUIPAJE(CREATE table EQUIPAJE(id integer primary key autoincrement"
+				+ "DIMENSION integer not null, PESO integer not null, COLOR text not null,"
+				+ "pasajero_id integer REFERENCES pasajero(id) ON UPDATE CASCADE ON DELETE SET NULL,"
+				+ "vuelo_id integer REFERENCES pasajero(id) ON UPDATE CASCADE ON DELETE SET NULL);"; 
 		stm.executeQuery(sql);
-		c.close();
+		stm.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -473,7 +483,7 @@ public class DbManager {
 	public void createTablaPasajero(){
 		try{
 		Statement stm=c.createStatement();
-		String sql="CREATE table PASAJERO("; //TERMINAAAAAAAR
+		String sql="CREATE table PASAJERO("; //TERMINAR
 		stm.executeQuery(sql);
 		c.close();
 		}

@@ -28,14 +28,13 @@ public class DbMenu{
 			gestor.createTablaPista();
 			gestor.createTablaTripulacion();
 			gestor.createTablaAerolinea();
-			/*
-			 * gestor.createTablaEquipaje();
-			 * gestor.createTablaAvion();
-			 * gestor.createTablaBillete();
-			 * gestor.createTablaPasajero();
-			 * gestor.createTablaTerminal();
-			 * gestor.createTablaVuelo();
-			 */
+			gestor.createTablaEquipaje();
+			gestor.createTablaAvion();
+			gestor.createTablaBillete();
+			//gestor.createTablaPasajero();
+			//gestor.createTablaTerminal();
+			//gestor.createTablaVuelo();
+			
 		
 		}
 	
