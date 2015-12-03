@@ -49,7 +49,7 @@ public class DbMenu{
 		 switch(opcion1){
 		 
 		 case 1: 
-			 //le he cambiado los eeeeeeeeenombres a los metodos de los menus, esto vende mas
+			 //le he cambiado los eeeeeeeeenombres a los metodos de los menus, esto vende más
 			 menuEscogerTablaAñadir();
 	
 			 break;
@@ -87,6 +87,7 @@ public class DbMenu{
 		switch(a){
 	
 		case 1: 
+			//Al hacer un select sobre trabajador, con las fechas no sale lo que debería salir (en la terminal)
 			System.out.println("Añadiendo trabajador . . . ");
 			System.out.println("¿A qué tripulación pertenece: ");
 			String tripulacion=sc.nextLine();
@@ -100,7 +101,7 @@ public class DbMenu{
 			LocalDate p = LocalDate.parse(fechaNacimiento1, formatter);
 			Date fechaNacimiento =Date.valueOf(p);
 			
-			System.out.println("Fecha inicio contrato (yyyy-MM-dd");
+			System.out.println("Fecha inicio contrato (yyyy-MM-dd)");
 			String fechaContrato1=sc.nextLine();
 			LocalDate p2 = LocalDate.parse(fechaContrato1, formatter);
 			Date fechaContrato=Date.valueOf(p2);
@@ -108,10 +109,11 @@ public class DbMenu{
 			Trabajador trabajador1=new Trabajador(tripulacion, nombreTrabajador, fechaNacimiento, fechaContrato);
 			gestor.insertTablaTripulacion(trabajador1);
 			
+			System.out.println("Añadido trabajador: "+trabajador1.toString());
 			break;
 		
 		case 2:
-			//no pude comprobar porque no puedo crear las tablas
+			// FUNCIONA
 			System.out.println("Añadiendo Aerolínea . . . ");
 			System.out.println("Nombre: ");
 			String nombreAerolinea=sc.nextLine();
@@ -124,6 +126,8 @@ public class DbMenu{
 			
 			Aerolinea aerolinea=new Aerolinea(nombreAerolinea, aeropuertoBase, nacionalidad);
 			gestor.insertTablaAerolinea(aerolinea);
+			
+			System.out.println("Añadida aerolínea: "+aerolinea.toString(aerolinea));
 			break;
 		
 		case 3:
@@ -141,6 +145,8 @@ public class DbMenu{
 			
 			Modelo modelo=new Modelo(capacidad, nombreModelo, asientoModelo);
 			gestor.insertTablaModelo(modelo);
+			
+			System.out.println("Añadido modelo: "+modelo.toString());
 			break;
 		
 		case 4:
@@ -213,7 +219,7 @@ public class DbMenu{
 		sc.nextLine();
 		
 		switch(aa){
-		case 1:
+		case 1: //Funciona
 		
 		List<Trabajador> trabajador1=gestor.selectTrabajador();
 		 
@@ -223,14 +229,25 @@ public class DbMenu{
 		
 		 break;
 		 
-		case 2:
+		case 2: //imprime las direcciones de memoria, no las aerolineas que están creadas
+			List<Aerolinea> aerolinea1=gestor.selectAerolinea();
+			for(Aerolinea aerolinea:aerolinea1){
+				System.out.println(aerolinea.toString());
+			}
 			 break;
-		case 3:
+		case 3://Funciona
 			List<Modelo> modelo1=gestor.selectModelo();
 			for(Modelo modelo:modelo1){
 				System.out.println(modelo.toString());
-			break;
 			}
+			break;
+		case 4://Funciona
+			List<Pista> pista1=gestor.selectPista();
+			for(Pista pista:pista1){
+				System.out.println(pista.toString());
+				
+			}
+			break;
 		
 		}
 	}

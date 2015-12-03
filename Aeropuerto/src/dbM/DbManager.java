@@ -129,7 +129,7 @@ public class DbManager {
 			p.setString(2, pista.getOrientacion());
 			p.setInt(3, pista.getLongitud());
 			p.executeUpdate();
-			c.close();
+			p.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -192,7 +192,7 @@ public class DbManager {
 			prep.setString(3, modelo.getAsiento());
 			
 			prep.executeUpdate();
-			c.close();
+			prep.close();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -218,7 +218,7 @@ public class DbManager {
 				Modelo m1 = new Modelo(id, capacidad, nombre, asiento);
 				ListaModelo.add(m1);
 			}
-			c.close();
+			stm1.close();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -253,14 +253,13 @@ public class DbManager {
 		
 		try{
 		
-		
-		String sql = "Insert into Aerolinea(nombre, aeropuertoBase, nacionalidad)" + "values (?,?,?);";
+		String sql = "Insert into Aerolinea (nombre, aeropuertoBase, nacionalidad)" + "values (?,?,?);";
 		PreparedStatement  p = c.prepareStatement(sql);
 		p.setString(1, aerolinea.getNombre());
 		p.setString(2, aerolinea.getAeropuertoBase());
 		p.setString(3, aerolinea.getNacionalidad());
 		p.executeUpdate();
-		c.close();
+		p.close();
 		
 		}
 		catch(Exception e ){
@@ -282,7 +281,7 @@ public class DbManager {
 			Aerolinea ae1=new Aerolinea(id, nombre, aeropuertoBase, nacionalidad);
 			ListaAerolinea.add(ae1);
 		}
-		c.close();
+		stm.close();
 	} 
 	catch (SQLException e) {
 		e.printStackTrace();
@@ -373,7 +372,7 @@ public class DbManager {
 			//prep.setVuelo
 			//prep.setPasajero
 			prep.executeUpdate();
-			c.close();
+			prep.close();
 		} 
 		catch (SQLException e) {
 			
@@ -400,7 +399,7 @@ public class DbManager {
 			Billete b1=new Billete(id, clase, asiento, vuelo, pasajero);
 			ListaBillete.add(b1);
 		}
-		c.close();
+		stm.close();
 	}
 	catch (Exception e){
 		e.printStackTrace();
@@ -435,7 +434,7 @@ public class DbManager {
 		pstm.setInt(2, equipaje.getPeso());
 		pstm.setString(3,equipaje.getColor());
 		pstm.executeUpdate();
-		c.close();
+		pstm.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -457,7 +456,7 @@ public class DbManager {
 				Equipaje equipaje=new Equipaje(id, dimension, peso, color);
 				listaEquipaje.add(equipaje);
 			}
-			c.close();
+			stm.close();
 		}
 			catch(Exception e){
 				e.printStackTrace();
@@ -504,7 +503,7 @@ public class DbManager {
 		pstm.setInt(4, pasajero.getNPasaporte());
 		pstm.setDate(5, pasajero.getFechaDeNacimiento());
 		pstm.executeUpdate();
-		c.close();
+		pstm.close();
 	
 		}
 		catch(Exception e){
@@ -527,7 +526,7 @@ public class DbManager {
 			Pasajero pasajero1=new Pasajero(id, nombre, nacionalidad, sexo, nPasaporte, fechaDeNacimiento);
 			listaPasajero.add(pasajero1);
 		}
-		c.close();
+		stm.close();
 		}
 		
 		catch(Exception e){
@@ -570,7 +569,7 @@ public class DbManager {
 			pstm.setString(1, terminal.getNombre());
 			pstm.setInt(2, terminal.getNumeroDePistas());
 			pstm.executeUpdate();
-			c.close();
+			pstm.close();
 			}
 			catch(Exception e){
 				e.printStackTrace();
@@ -591,7 +590,7 @@ public class DbManager {
 			
 			listaTerminal.add(terminal1);
 			}
-			c.close();
+			stm.close();
 			}
 			catch(Exception e){
 				e.printStackTrace();
@@ -635,7 +634,7 @@ public class DbManager {
 				pstm.setObject(1, vuelo.getAvion());
 				pstm.setObject(2, vuelo.getTerminal());
 				pstm.executeUpdate();
-				c.close();
+				pstm.close();
 			}
 			catch(Exception e){
 				e.printStackTrace();
@@ -655,6 +654,7 @@ public class DbManager {
 			//Vuelo vuelo1=new Vuelo(avion, terminal);
 			listaVuelo.add(v);
 			}
+			stm.close();
 			}
 			catch(Exception e){
 				e.printStackTrace();

@@ -82,7 +82,7 @@ public class Pista {
 	}
 	
 	public String toString(){
-		String diego="Estado: "+estado+" Orientacion: "+orientacion+" Longitud: "+longitud;
+		String diego="Estado: "+estado+"\n"+" Orientacion: "+orientacion+"\n"+" Longitud: "+longitud;
 		return diego;
 	}
 
