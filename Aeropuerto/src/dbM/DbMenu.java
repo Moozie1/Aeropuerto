@@ -1,5 +1,8 @@
 package dbM;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,7 +11,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import pojo.Aerolinea;
+import pojo.Billete;
 import pojo.Modelo;
+import pojo.Pasajero;
 import pojo.Pista;
 import pojo.Trabajador;
 
@@ -173,6 +178,39 @@ public class DbMenu{
 		case 6:
 			System.out.println("Añadiendo pasajero . . . ");
 			
+			System.out.println("Nombre: ");
+			String nombre=sc.nextLine();
+			
+			System.out.println("Nacionalidad:");
+			String nacionalidadP=sc.nextLine();
+			
+			System.out.println("Sexo:");
+			String sexo=sc.nextLine();
+			
+			System.out.println("Número de pasaporte: ");
+			int nPasaporte=sc.nextInt();
+			
+			System.out.println("Fecha nacimiento (yyyy-MM-dd)");
+			InputStreamReader isr = new InputStreamReader(System.in);
+			BufferedReader br = new BufferedReader (isr);
+			String fechaNac;
+			try {
+				fechaNac = br.readLine();
+			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate p3 = LocalDate.parse(fechaNac, formato);
+			Date fechaNac1=Date.valueOf(p3);
+			
+			
+			Pasajero pasajero=new Pasajero(nombre, nacionalidadP, sexo, nPasaporte, fechaNac1);
+			gestor.insertTablePasajero(pasajero);
+			
+			System.out.println("Añadido pasajero:  "+pasajero.toString());
+			}
+			catch (IOException e) {
+				
+				e.printStackTrace();
+				
+				}
 			break;
 		case 7:
 			System.out.println("Añadiendo equipaje . . . ");
@@ -248,7 +286,18 @@ public class DbMenu{
 				
 			}
 			break;
-		
+		case 5: // NO FUNCIONA hay error en dmManager en el SELECT
+			List<Billete> billete1=gestor.selectBillete();
+			for(Billete billete:billete1){
+				System.out.println(billete.toString());
+			}
+			break;
+		case 6:
+			List <Pasajero> pasajero1=gestor.selectPasajero();
+			for(Pasajero pasajero:pasajero1){
+				System.out.println(pasajero.toString());
+			}
+			break;
 		}
 	}
 	

@@ -314,8 +314,8 @@ public class DbManager {
 		try{
 		String sql="INSERT into avion(aerolinea, modelo)"+"values(?,?);";
 		PreparedStatement p=c.prepareStatement(sql);
-		p.setAerolinea(1, avion.getAerolinea()); // es de tres
-		p.setModelo(2, avion.getModelo()); // otro más de 3
+		p.setString(1, avion.getAerolinea()); // es de tres
+		p.setString(2, avion.getModelo()); // otro más de 3
 		p.executeUpdate();
 		p.close();
 		}
@@ -494,7 +494,7 @@ public class DbManager {
 	}
 		
 	public void insertTablePasajero(Pasajero pasajero){
-		String sql="INSERT into PASAJERO(nombre, nacionalidad, sexo, npasaporte, fechaDeNacimiento"+"values(?,?,?,?,?);";//COMPROBAR
+		String sql="INSERT into PASAJERO(nombre, nacionalidad, sexo, npasaporte, fechaNacimiento)"+"values(?,?,?,?,?);";//COMPROBAR
 		try{
 		PreparedStatement pstm=c.prepareStatement(sql);
 		pstm.setString(1, pasajero.getNombre());
@@ -522,7 +522,7 @@ public class DbManager {
 			String nacionalidad=rs.getString("nacionalidad");
 			String sexo=rs.getString("sexo");
 			int nPasaporte=rs.getInt("npasaporte");
-			Date fechaDeNacimiento=rs.getDate("fechadenacimiento");
+			Date fechaDeNacimiento=rs.getDate("fechaNacimiento");
 			Pasajero pasajero1=new Pasajero(id, nombre, nacionalidad, sexo, nPasaporte, fechaDeNacimiento);
 			listaPasajero.add(pasajero1);
 		}

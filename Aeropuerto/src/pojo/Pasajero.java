@@ -7,6 +7,8 @@ public class Pasajero {
 	private String nombre, nacionalidad, sexo;
 	private int id, nPasaporte;
 	private Date fechaDeNacimiento;
+	
+	
 	public Pasajero(int id, String nombre, String nacionalidad, String sexo, int nPasaporte, Date fechaDeNacimiento) {
 		super();
 		this.nombre = nombre;
@@ -38,6 +40,10 @@ public class Pasajero {
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
 		return result;
+	}
+	public String toString(){
+		String s="Nombre: "+nombre+" Nacionalidad: "+nacionalidad+" Sexo: "+sexo+" Número pasaporte: "+nPasaporte+" Fecha de nacimiento: "+fechaDeNacimiento;
+	return s;
 	}
 	@Override
 	public boolean equals(Object obj) {
