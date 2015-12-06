@@ -17,6 +17,7 @@ import pojo.Modelo;
 import pojo.Pasajero;
 import pojo.Pista;
 import pojo.Trabajador;
+import pojo.Vuelo;
 
 public class DbMenu{
 	
@@ -216,7 +217,17 @@ public class DbMenu{
 			break;
 		case 7:
 			System.out.println("Añadiendo equipaje . . . ");
-			
+				System.out.println("Clase: ");
+				String clase=sc.nextLine();
+				
+				System.out.println("Asiento (número):");
+				int asiento=sc.nextInt();
+				
+				System.out.println("Vuelo: ");
+				int id_vuelo=sc.nextInt();
+				
+				
+				
 			break;
 		case 8:
 			System.out.println("Añadiendo terminal . . . ");
