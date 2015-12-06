@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import pojo.Aerolinea;
 import pojo.Billete;
+import pojo.Equipaje;
 import pojo.Modelo;
 import pojo.Pasajero;
 import pojo.Pista;
@@ -136,7 +137,7 @@ public class DbMenu{
 			break;
 		
 		case 3:
-			//se añade y tal, pero falla en lo de asignar id
+			//Funciona
 			System.out.println("Añadiendo modelo . . . ");
 			System.out.println("Capacidad: ");
 			int capacidad=sc.nextInt();
@@ -172,6 +173,7 @@ public class DbMenu{
 			
 		case 5:
 			System.out.println("Añadiendo billete . . . ");
+			
 			
 			System.out.println("");
 			break;
@@ -296,6 +298,11 @@ public class DbMenu{
 			List <Pasajero> pasajero1=gestor.selectPasajero();
 			for(Pasajero pasajero:pasajero1){
 				System.out.println(pasajero.toString());
+			}
+			break;
+		case 7: List <Equipaje> equipaje1=gestor.selectEquipaje();
+			for(Equipaje equipaje:equipaje1){
+				System.out.println(equipaje.toString());				
 			}
 			break;
 		}

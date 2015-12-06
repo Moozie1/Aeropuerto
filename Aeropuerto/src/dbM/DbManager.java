@@ -348,7 +348,7 @@ public class DbManager {
 	}
 		
 	//---------------------------BILLETE--------------------------------------------
-	public void createTablaBillete(){        //******falta el SQL******
+	public void createTablaBillete(){        
 		try {
 			Statement stm=c.createStatement();
 			String sql="create table BILLETE(ID integer primary key autoincrement, ASIENTO integer not null, CLASE text not null,"
