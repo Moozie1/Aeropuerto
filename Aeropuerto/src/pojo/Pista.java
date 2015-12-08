@@ -1,6 +1,10 @@
 package pojo;
 
 public class Pista {
+	private int id;
+	private String estado;
+	private String orientacion;
+	private int longitud;
 	
 	
 	public int getId() {
@@ -51,10 +55,7 @@ public class Pista {
 
 
 
-	private int id;
-	private String estado;
-	private String orientacion;
-	private int longitud;
+	
 	
 	
 	

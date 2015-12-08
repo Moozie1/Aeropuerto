@@ -175,8 +175,23 @@ public class DbMenu{
 		case 5:
 			System.out.println("Añadiendo billete . . . ");
 			
+			System.out.println("Clase: ");
+			String clase=sc.nextLine();
 			
-			System.out.println("");
+			System.out.println("Asiento (número):");
+			int asiento=sc.nextInt();
+			
+			System.out.println("Vuelo: ");
+			int id_vuelo=sc.nextInt();
+			
+			
+			System.out.println("Pasajero: ");
+			int id_pasajero=sc.nextInt();
+			
+			
+			Billete billete =new Billete(clase, asiento, id_vuelo, id_pasajero);
+			
+			//System.out.println("");
 			break;
 		case 6:
 			System.out.println("Añadiendo pasajero . . . ");
@@ -217,14 +232,7 @@ public class DbMenu{
 			break;
 		case 7:
 			System.out.println("Añadiendo equipaje . . . ");
-				System.out.println("Clase: ");
-				String clase=sc.nextLine();
 				
-				System.out.println("Asiento (número):");
-				int asiento=sc.nextInt();
-				
-				System.out.println("Vuelo: ");
-				int id_vuelo=sc.nextInt();
 				
 				
 				

@@ -407,6 +407,30 @@ public class DbManager {
 	return ListaBillete;
 	}
 	
+	/**public Vuelo selectVueloEnBilletePorId(int id_vuelo){
+		
+		try {
+			String sql= "SELECT * from vuelo WHERE id=?";
+			PreparedStatement p=c.prepareStatement(sql);
+			p.setInt(1,id_vuelo);
+			p.executeQuery();
+			ResultSet rs=p.executeQuery();
+			
+			while(rs.next()){
+				int id=rs.getInt("id");
+				
+			}
+		} 
+		catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+	}
+	*/
 	//----------------------------------------------------EQUIPAJE-------------------------------------------------
 	
 	

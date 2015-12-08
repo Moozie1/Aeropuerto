@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Trabajador {
 	private int id;
-	private String tripulacion;
+	private Aerolinea aerolinea;
 	private String nombre;
 	private Date fechaDeNacimiento;
 	private Date fechaInicioTrabajo;
@@ -13,17 +13,17 @@ public class Trabajador {
 	public Trabajador(){
 		
 	}
-	public Trabajador(String tripu, String nombre, Date fechaDeNacimiento, Date fechaInicioTrabajo){
-		this.tripulacion=tripu;
+	public Trabajador(Aerolinea aerolinea, String nombre, Date fechaDeNacimiento, Date fechaInicioTrabajo){
+		this.aerolinea=aerolinea;
 		this.nombre=nombre;
 		this.fechaDeNacimiento=fechaDeNacimiento;
 		this.fechaInicioTrabajo=fechaInicioTrabajo;
 		
 	}
 	
-	public Trabajador(int id, String tripulacion, String nombre, Date fechaDeNacimiento, Date fechaInicioTrabajo){
+	public Trabajador(int id, Aerolinea aerolinea, String nombre, Date fechaDeNacimiento, Date fechaInicioTrabajo){
 		this.id=id;
-		this.tripulacion=tripulacion;
+		this.aerolinea=aerolinea;
 		this.nombre=nombre;
 		this.fechaDeNacimiento=fechaDeNacimiento;
 		this.fechaInicioTrabajo=fechaInicioTrabajo;
@@ -31,18 +31,18 @@ public class Trabajador {
 	
 	public String toString(){
 		String c;
-		c = "Id: "+id +"\n"+"Tripulacion: "+tripulacion +"\n"+"Nombre:"+nombre+"\n"+"Fecha de Nacimiento:" + 
+		c = "Id: "+id +"\n"+"Aerolinea: "+aerolinea +"\n"+"Nombre:"+nombre+"\n"+"Fecha de Nacimiento:" + 
 		fechaDeNacimiento+"\n"+"Fecha De inicio de contrato:"+ fechaInicioTrabajo+"\n";
 		return c;
 	}
 		
 	
-	public String getTripulacion(){
-		return tripulacion;
+	public Aerolinea getTripulacion(){
+		return aerolinea;
 		
 	}
-	public void setTripulacion(String a){
-		this.tripulacion= a;
+	public void setTripulacion(Aerolinea a){
+		this.aerolinea= a;
 		
 		
 	}
