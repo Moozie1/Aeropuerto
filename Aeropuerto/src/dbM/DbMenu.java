@@ -33,7 +33,7 @@ public class DbMenu{
 			
 			gestor.createTablaModelo();
 			gestor.createTablaPista();
-			gestor.createTablaTripulacion();
+			gestor.createTablaTrabajador();
 			gestor.createTablaAerolinea();
 			gestor.createTablaEquipaje();
 			gestor.createTablaAvion();
@@ -96,25 +96,29 @@ public class DbMenu{
 		case 1: 
 			//Al hacer un select sobre trabajador, con las fechas no sale lo que debería salir (en la terminal)
 			System.out.println("Añadiendo trabajador . . . ");
-			System.out.println("¿A qué tripulación pertenece: ");
-			String tripulacion=sc.nextLine();
+			System.out.println("¿A qué aerolínea pertenece?: ");
+			gestor.selectAerolinea();
+			System.out.println("Introduce id de la aerolinea a la que pertenece:");
+			int idAe=sc.nextInt();
+			Aerolinea aerolinea=gestor.seleccionarAerolineaPorId(idAe);
+		
 			
 			System.out.println("Nombre del trabajador: ");
 			String nombreTrabajador=sc.nextLine();
 			
-			System.out.println("Fecha de nacimiento (yyyy-MM-dd)");
+			System.out.println("Fecha de nacimiento (yyyy-MM-dd):");
 			String fechaNacimiento1 = sc.nextLine();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate p = LocalDate.parse(fechaNacimiento1, formatter);
 			Date fechaNacimiento =Date.valueOf(p);
 			
-			System.out.println("Fecha inicio contrato (yyyy-MM-dd)");
+			System.out.println("Fecha inicio contrato (yyyy-MM-dd):");
 			String fechaContrato1=sc.nextLine();
 			LocalDate p2 = LocalDate.parse(fechaContrato1, formatter);
 			Date fechaContrato=Date.valueOf(p2);
 			
-			Trabajador trabajador1=new Trabajador(tripulacion, nombreTrabajador, fechaNacimiento, fechaContrato);
-			gestor.insertTablaTripulacion(trabajador1);
+			Trabajador trabajador1=new Trabajador(aerolinea, nombreTrabajador, fechaNacimiento, fechaContrato);
+			gestor.insertTablaTrabajador(trabajador1);
 			
 			System.out.println("Añadido trabajador: "+trabajador1.toString());
 			break;
@@ -131,10 +135,10 @@ public class DbMenu{
 			System.out.println("Nacionalidad: ");
 			String nacionalidad=sc.nextLine();
 			
-			Aerolinea aerolinea=new Aerolinea(nombreAerolinea, aeropuertoBase, nacionalidad);
-			gestor.insertTablaAerolinea(aerolinea);
+			Aerolinea aerolinea1=new Aerolinea(nombreAerolinea, aeropuertoBase, nacionalidad);
+			gestor.insertTablaAerolinea(aerolinea1);
 			
-			System.out.println("Añadida aerolínea: "+aerolinea.toString(aerolinea));
+			System.out.println("Añadida aerolínea: "+aerolinea1.toString(aerolinea1));
 			break;
 		
 		case 3:
@@ -189,7 +193,7 @@ public class DbMenu{
 			int id_pasajero=sc.nextInt();
 			
 			
-			Billete billete =new Billete(clase, asiento, id_vuelo, id_pasajero);
+			//Billete billete =new Billete(clase, asiento, id_vuelo, id_pasajero);
 			
 			//System.out.println("");
 			break;

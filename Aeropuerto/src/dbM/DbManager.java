@@ -39,11 +39,12 @@ public class DbManager {
 	}
 
 	// ______________________________________________________TRABAJADOR______________________________________________
-	public void createTablaTripulacion() {
+	public void createTablaTrabajador() {
 		try {
 			Statement stmt1 = c.createStatement();
 
-			String p = "create table TRABAJADOR (" + "id integer primary key autoincrement, " + "tripulacion text not null,"
+			String p = "create table TRABAJADOR (" + "id integer primary key autoincrement, "  
+					+"aerolinea_id REFERENCES aerolinea(id) ON UPDATE CASCADE ON DELETE SET NULL,"
 					+ "nombre text not null," + "fechaDeNacimiento DATE," + "fechaInicioTrabajo DATE)"
 					 + ";";
 
@@ -55,14 +56,14 @@ public class DbManager {
 
 	}
 
-	public void insertTablaTripulacion(Trabajador trabajador) {
+	public void insertTablaTrabajador(Trabajador trabajador) {
 		try {
 
-			String o = "Insert into Trabajador (tripulacion, nombre, fechaDeNacimiento,fechaInicioTrabajo)"
+			String o = "Insert into Trabajador (aerolinea_id, nombre, fechaDeNacimiento,fechaInicioTrabajo)"
 					+ "values (?,?,?,?);";
 
 			PreparedStatement prep = c.prepareStatement(o);
-			prep.setString(1, trabajador.getTripulacion());
+			prep.setInt(1, trabajador.getAerolinea().getId());
 			prep.setString(2, trabajador.getNombre());
 			prep.setDate(3, trabajador.getFechaDeNacimiento());
 			prep.setDate(4, trabajador.getFechaInicioTrabajo());
@@ -84,11 +85,12 @@ public class DbManager {
 			ResultSet rs=stmt5.executeQuery(sql);
 			while(rs.next()){
 				int id =rs.getInt("id");
-				String tripulacion=rs.getString("tripulacion");
+				int aerolinea1=rs.getInt("aerolinea_id");
+				Aerolinea aerolinea=seleccionarAerolineaPorId(aerolinea1);
 				String nombre=rs.getString("nombre");
 				Date fechaNacimiento=rs.getDate("fechaDeNacimiento");
 				Date fechaContrato=rs.getDate("fechaInicioTrabajo");
-			Trabajador trb=new Trabajador(id, tripulacion, nombre, fechaNacimiento, fechaContrato);
+			Trabajador trb=new Trabajador(id, aerolinea, nombre, fechaNacimiento, fechaContrato);
 			trabajador.add(trb);
 			}
 			
@@ -103,6 +105,8 @@ public class DbManager {
 		
 		
 	}
+	
+	
 
 	// ________________________________________PISTA________________________________
 
@@ -189,7 +193,7 @@ public class DbManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, modelo.getCapacidad());
 			prep.setString(2, modelo.getNombre());
-			prep.setString(3, modelo.getAsiento());
+			prep.setString(3, modelo.getAsientos());
 			
 			prep.executeUpdate();
 			prep.close();
@@ -290,6 +294,29 @@ public class DbManager {
 	
 	
 	
+	}
+	
+	public Aerolinea seleccionarAerolineaPorId(int id1){
+		Aerolinea aerolinea=null;
+		try{
+			String sql="SELECT * from AEROLINEA WHERE id=?";
+			PreparedStatement prep=c.prepareStatement(sql);
+			prep.setInt(1,id1);
+			prep.executeQuery();
+			ResultSet rs=prep.executeQuery();
+			while(rs.next()){
+				int id=rs.getInt("id");
+				String nombre=rs.getString("nombre");
+				String aeropuertoBase=rs.getString("aeropuertoBase");
+				String nacionalidad=rs.getString("nacionalidad");
+				aerolinea=new Aerolinea(id, nombre, aeropuertoBase, nacionalidad);
+				prep.close();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return aerolinea;
 	}
 		
 		//--------------------------------Avion----------------------------------------

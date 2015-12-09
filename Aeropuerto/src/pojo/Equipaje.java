@@ -1,29 +1,72 @@
 package pojo;
 
 public class Equipaje {
-	
-	private int dimension, peso,id;
+	private int id;
+	private int dimension;
+	private int peso;
 	private String color;
+	private Pasajero pasajero;
+	private Vuelo vuelo;
 	
-	
-	public Equipaje(int dimension, int peso, String color) {
-		super();
-		this.dimension = dimension;
-		this.peso = peso;
-		this.color = color;
+	public Equipaje(int id, int dimension, int peso, String color, Pasajero pasajero, Vuelo vuelo){
+		this.id=id;
+		this.dimension=dimension;
+		this.peso=peso;
+		this.color=color;
+		this.pasajero=pasajero;
+		this.vuelo=vuelo;
 	}
-	public Equipaje() {
-		super();
+	public Equipaje(int dimension, int peso, String color, Pasajero pasajero, Vuelo vuelo){
+		this.dimension=dimension;
+		this.peso=peso;
+		this.color=color;
+		this.pasajero=pasajero;
+		this.vuelo=vuelo;
 	}
-
-	public Equipaje(int dimension, int peso, int id, String color) {
-		super();
-		this.dimension = dimension;
-		this.peso = peso;
+	public Equipaje(){
+		
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
 		this.id = id;
+	}
+	public int getDimension() {
+		return dimension;
+	}
+	public void setDimension(int dimension) {
+		this.dimension = dimension;
+	}
+	public int getPeso() {
+		return peso;
+	}
+	public void setPeso(int peso) {
+		this.peso = peso;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
 		this.color = color;
 	}
-
+	public Pasajero getPasajero() {
+		return pasajero;
+	}
+	public void setPasajero(Pasajero pasajero) {
+		this.pasajero = pasajero;
+	}
+	public Vuelo getVuelo() {
+		return vuelo;
+	}
+	public void setVuelo(Vuelo vuelo) {
+		this.vuelo = vuelo;
+	}
+	@Override
+	public String toString() {
+		return "Equipaje [id=" + id + ", dimension=" + dimension + ", peso=" + peso + ", color=" + color + ", pasajero="
+				+ pasajero + ", vuelo=" + vuelo + "]";
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -31,10 +74,11 @@ public class Equipaje {
 		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		result = prime * result + dimension;
 		result = prime * result + id;
+		result = prime * result + ((pasajero == null) ? 0 : pasajero.hashCode());
 		result = prime * result + peso;
+		result = prime * result + ((vuelo == null) ? 0 : vuelo.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -53,46 +97,19 @@ public class Equipaje {
 			return false;
 		if (id != other.id)
 			return false;
+		if (pasajero == null) {
+			if (other.pasajero != null)
+				return false;
+		} else if (!pasajero.equals(other.pasajero))
+			return false;
 		if (peso != other.peso)
+			return false;
+		if (vuelo == null) {
+			if (other.vuelo != null)
+				return false;
+		} else if (!vuelo.equals(other.vuelo))
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "Equipaje [dimension=" + dimension + ", peso=" + peso + ", id=" + id + ", color=" + color + "]";
-	}
-
-	public int getDimension() {
-		return dimension;
-	}
-
-	public void setDimension(int dimension) {
-		this.dimension = dimension;
-	}
-
-	public int getPeso() {
-		return peso;
-	}
-
-	public void setPeso(int peso) {
-		this.peso = peso;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
-	}
-
+	
 }

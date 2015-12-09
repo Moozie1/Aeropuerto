@@ -5,20 +5,23 @@ public class Vuelo {
 	private int id;
 	private Avion avion;
 	private Terminal terminal;
+	private Pista pista;
 	
 	
 	public Vuelo(){
 		
 	}
-	public Vuelo(int id, Avion avion, Terminal terminal){
+	public Vuelo(int id, Avion avion, Terminal terminal, Pista pista){
 		this.id=id;
 		this.avion=avion;
 		this.terminal=terminal;
+		this.pista=pista;
 	}
 	
-	public Vuelo(Avion avion, Terminal terminal){
+	public Vuelo(Avion avion, Terminal terminal, Pista pista){
 		this.avion=avion;
 		this.terminal=terminal;
+		this.pista=pista;
 	}
 	public int getId(){
 		return id;
@@ -40,7 +43,7 @@ public class Vuelo {
 	}
 	
 	public String toString(){
-		String a="Id: "+id+"Vuelo: "+avion+"Terminal: "+terminal;
+		String a="Id: "+id+" Vuelo: "+avion+" Terminal: "+terminal+" Pista: "+pista;
 		return a;
 	}
 	@Override
@@ -49,6 +52,7 @@ public class Vuelo {
 		int result = 1;
 		result = prime * result + ((avion == null) ? 0 : avion.hashCode());
 		result = prime * result + id;
+		result = prime * result + ((pista == null) ? 0 : pista.hashCode());
 		result = prime * result + ((terminal == null) ? 0 : terminal.hashCode());
 		return result;
 	}
@@ -68,6 +72,11 @@ public class Vuelo {
 			return false;
 		if (id != other.id)
 			return false;
+		if (pista == null) {
+			if (other.pista != null)
+				return false;
+		} else if (!pista.equals(other.pista))
+			return false;
 		if (terminal == null) {
 			if (other.terminal != null)
 				return false;
@@ -75,18 +84,6 @@ public class Vuelo {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

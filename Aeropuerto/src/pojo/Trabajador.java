@@ -37,11 +37,11 @@ public class Trabajador {
 	}
 		
 	
-	public Aerolinea getTripulacion(){
+	public Aerolinea getAerolinea(){
 		return aerolinea;
 		
 	}
-	public void setTripulacion(Aerolinea a){
+	public void setAerolinea(Aerolinea a){
 		this.aerolinea= a;
 		
 		
@@ -75,11 +75,11 @@ public class Trabajador {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((aerolinea == null) ? 0 : aerolinea.hashCode());
 		result = prime * result + ((fechaDeNacimiento == null) ? 0 : fechaDeNacimiento.hashCode());
 		result = prime * result + ((fechaInicioTrabajo == null) ? 0 : fechaInicioTrabajo.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((tripulacion == null) ? 0 : tripulacion.hashCode());
 		return result;
 	}
 	@Override
@@ -91,6 +91,11 @@ public class Trabajador {
 		if (getClass() != obj.getClass())
 			return false;
 		Trabajador other = (Trabajador) obj;
+		if (aerolinea == null) {
+			if (other.aerolinea != null)
+				return false;
+		} else if (!aerolinea.equals(other.aerolinea))
+			return false;
 		if (fechaDeNacimiento == null) {
 			if (other.fechaDeNacimiento != null)
 				return false;
@@ -107,11 +112,6 @@ public class Trabajador {
 			if (other.nombre != null)
 				return false;
 		} else if (!nombre.equals(other.nombre))
-			return false;
-		if (tripulacion == null) {
-			if (other.tripulacion != null)
-				return false;
-		} else if (!tripulacion.equals(other.tripulacion))
 			return false;
 		return true;
 	}

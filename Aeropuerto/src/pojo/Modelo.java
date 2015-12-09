@@ -4,23 +4,23 @@ public class Modelo {
 	private int id;
 	private int capacidad;
 	private String nombre;
-	private String asiento;
+	private String asientos;
 	
 	public Modelo(){
 		
 	}
 	
-	public Modelo(int capacidad, String nombre, String asiento){
+	public Modelo(int capacidad, String nombre, String asientos){
 		this.capacidad=capacidad;
 		this.nombre=nombre;
-		this.asiento=asiento;
+		this.asientos=asientos;
 	}
 	
-	public Modelo(int id, int capacidad, String nombre, String asiento){
+	public Modelo(int id, int capacidad, String nombre, String asientos){
 		this.id=id;
 		this.capacidad=capacidad;
 		this.nombre=nombre;
-		this.asiento=asiento;
+		this.asientos=asientos;
 	}
 	
 	public int getCapacidad() {
@@ -39,12 +39,12 @@ public class Modelo {
 		this.nombre = nombre;
 	}
 
-	public String getAsiento() {
-		return asiento;
+	public String getAsientos() {
+		return asientos;
 	}
 
-	public void setAsiento(String asiento) {
-		this.asiento = asiento;
+	public void setAsientos(String asiento) {
+		this.asientos = asiento;
 	}
 	public int getId(){
 		return id;
@@ -56,7 +56,7 @@ public class Modelo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((asiento == null) ? 0 : asiento.hashCode());
+		result = prime * result + ((asientos == null) ? 0 : asientos.hashCode());
 		result = prime * result + capacidad;
 		result = prime * result + id;
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
@@ -72,10 +72,10 @@ public class Modelo {
 		if (getClass() != obj.getClass())
 			return false;
 		Modelo other = (Modelo) obj;
-		if (asiento == null) {
-			if (other.asiento != null)
+		if (asientos == null) {
+			if (other.asientos != null)
 				return false;
-		} else if (!asiento.equals(other.asiento))
+		} else if (!asientos.equals(other.asientos))
 			return false;
 		if (capacidad != other.capacidad)
 			return false;
@@ -90,7 +90,7 @@ public class Modelo {
 	}
 
 	public String toString(){
-		String diego="Id: " +id +"Capacidad: "+capacidad+" Nombre: "+nombre+" Asiento: "+asiento;
+		String diego="Id: " +id +"Capacidad: "+capacidad+" Nombre: "+nombre+" Asiento: "+asientos;
 		return diego;
 		
 	}
