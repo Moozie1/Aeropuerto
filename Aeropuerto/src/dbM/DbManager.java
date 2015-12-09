@@ -341,8 +341,8 @@ public class DbManager {
 		try{
 		String sql="INSERT into avion(aerolinea, modelo)"+"values(?,?);";
 		PreparedStatement p=c.prepareStatement(sql);
-		p.setString(1, avion.getAerolinea()); // es de tres
-		p.setString(2, avion.getModelo()); // otro más de 3
+		p.setInt(1, avion.getAerolinea().getId()); // es de tres
+		p.setInt(2, avion.getModelo().getId()); // otro más de 3
 		p.executeUpdate();
 		p.close();
 		}
@@ -360,9 +360,11 @@ public class DbManager {
 			ResultSet rs=stm.executeQuery(sql);
 			while(rs.next()){
 			int id=rs.getInt("id");
-			Aerolinea aerolinea=rs.getAerolinea("aerolinea");
-			Modelo modelo=rs.getModelo("modelo");
+			int aerolinea1 = rs.getInt("aerolinea_id");
+			Aerolinea aerolinea=seleccionarAerolineaPorId(aerolinea1);
 			
+			int modelo1= rs.getInt("modelo_id");
+			Modelo modelo=seleccionarModeloPorId(modelo1);
 			Avion av1=new Avion(id, aerolinea, modelo);
 			ListaAvion.add(av1);
 			}	
@@ -420,8 +422,10 @@ public class DbManager {
 		while(rs.next()){
 			int id=rs.getInt("id");
 			String clase=rs.getString("clase");
-			Vuelo vuelo=rs.getVuelo("vuelo");
-			Pasajero pasajero=rs.getPasajero("pasajero");
+			int vuelo1 = rs.getInt("vuelo_id");
+			Vuelo vuelo = seleccionarVueloPorId(vuelo1);
+			int pasajero1 = rs.getInt("pasajero_id");
+			Pasajero pasajero=seleccionarPasajeoPorId("pasajero1");
 			int asiento=rs.getInt("asiento");
 			Billete b1=new Billete(id, clase, asiento, vuelo, pasajero);
 			ListaBillete.add(b1);
@@ -477,7 +481,7 @@ public class DbManager {
 		
 	}
 	
-	public void insertTablaEquipaje(){
+	public void insertTablaEquipaje(Equipaje equipaje){
 		String sql="INSERT into EQUIPAJE(dimension, peso, color)"+"values(?,?,?);";
 		try{
 		PreparedStatement pstm=c.prepareStatement(sql);
@@ -503,8 +507,12 @@ public class DbManager {
 				int id=rs.getInt("id");
 				int dimension=rs.getInt("dimension");
 				int peso=rs.getInt("peso");
+				int vuelo1 = rs.getInt("vuelo_id");
+				Vuelo vuelo=seleccionarVueloPorId(vuelo1);
+				int pasajero1 =rs.getInt("pasajero_id");
+				Pasajero pasajero = seleccionarPasajeroPorId("pasajero1");
 				String color=rs.getString("color");
-				Equipaje equipaje=new Equipaje(id, dimension, peso, color);
+				Equipaje equipaje=new Equipaje(id, dimension, peso, color,pasajero,vuelo);
 				listaEquipaje.add(equipaje);
 			}
 			stm.close();
