@@ -230,6 +230,28 @@ public class DbManager {
 		return ListaModelo;
 	}
 	
+	public Modelo seleccionarModeloPorId(int idM){
+		Modelo modelo=null;
+		try{
+			String sql="SELECT * from MODELO WHERE id=?";
+			PreparedStatement prep=c.prepareStatement(sql);
+			prep.setInt(1, idM);
+			prep.executeQuery();
+			ResultSet rs=prep.executeQuery();
+			while(rs.next()){
+				int id=rs.getInt("id");
+				int capacidad=rs.getInt("capacidad");
+				String nombre=rs.getString("nombre");
+				String asientos=rs.getString("asientos");
+			modelo=new Modelo(id, capacidad, nombre, asientos);
+			prep.close();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return modelo;
+	}
 
 	// ______________________________________________AEROLINEA__________________________________
 
@@ -296,12 +318,12 @@ public class DbManager {
 	
 	}
 	
-	public Aerolinea seleccionarAerolineaPorId(int id1){
+	public Aerolinea seleccionarAerolineaPorId(int idA){
 		Aerolinea aerolinea=null;
 		try{
 			String sql="SELECT * from AEROLINEA WHERE id=?";
 			PreparedStatement prep=c.prepareStatement(sql);
-			prep.setInt(1,id1);
+			prep.setInt(1,idA);
 			prep.executeQuery();
 			ResultSet rs=prep.executeQuery();
 			while(rs.next()){
@@ -318,6 +340,7 @@ public class DbManager {
 		}
 		return aerolinea;
 	}
+
 		
 		//--------------------------------Avion----------------------------------------
 	
@@ -339,10 +362,10 @@ public class DbManager {
 	
 	public void insertTablaAvion(Avion avion){
 		try{
-		String sql="INSERT into avion(aerolinea, modelo)"+"values(?,?);";
+		String sql="INSERT into avion(aerolinea_id, modelo)"+"values(?,?);";
 		PreparedStatement p=c.prepareStatement(sql);
-		p.setString(1, avion.getAerolinea()); // es de tres
-		p.setString(2, avion.getModelo()); // otro más de 3
+		p.setInt(1, avion.getAerolinea().getId()); // es de tres (entró)
+		p.setInt(2, avion.getModelo().getId()); // otro más de 3 (y también entró)
 		p.executeUpdate();
 		p.close();
 		}
@@ -704,6 +727,7 @@ public class DbManager {
 			//Terminal terminal=rs.getTerminal("terminal");
 			//Vuelo vuelo1=new Vuelo(avion, terminal);
 			listaVuelo.add(v);
+			
 			}
 			stm.close();
 			}
