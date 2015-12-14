@@ -397,7 +397,7 @@ public class DbManager {
 			e.printStackTrace();
 		}
 	}
-	// HAY VARIOS FALLOS PORQUE NO SE QUE HAY QUE HACER CON LAS FOREIGN KEYS
+	
 	public List<Avion> selectAvion(){
 		List<Avion> ListaAvion=new ArrayList<Avion>();
 		
