@@ -91,9 +91,9 @@ public class Terminal {
 	}
 
 
-	@Override
+	
 	public String toString() {
-		return "Terminal [id=" + id + ", nombre=" + nombre + ", numeroDePistas=" + numeroDePistas + "]";
+		return "Id: " + id + "\nNombre: " + nombre + "\nNumeroDePistas: " + numeroDePistas + "\n----------";
 	}
 	
 	

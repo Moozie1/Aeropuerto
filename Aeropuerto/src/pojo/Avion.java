@@ -42,7 +42,7 @@ public class Avion {
 		this.modelo=modelo;
 	}
 	public String toString(){
-		String a="Id: "+id+" Aerolinea: "+aerolinea+"Modelo: "+modelo;
+		String a="Id: "+id+"\nAerolinea: "+aerolinea+"\nModelo: "+"\n"+modelo+"\n----------";
 		return a;
 	}
 

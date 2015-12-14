@@ -43,7 +43,7 @@ public class Vuelo {
 	}
 	
 	public String toString(){
-		String a="Id: "+id+" Vuelo: "+avion+" Terminal: "+terminal+" Pista: "+pista;
+		String a=" Id: "+id+"\n Avión: "+avion+"\n Terminal: "+terminal+"\n Pista: "+pista+"\n----------";
 		return a;
 	}
 	@Override
@@ -83,6 +83,12 @@ public class Vuelo {
 		} else if (!terminal.equals(other.terminal))
 			return false;
 		return true;
+	}
+	public Pista getPista() {
+		return pista;
+	}
+	public void setPista(Pista pista) {
+		this.pista = pista;
 	}
 	
 	

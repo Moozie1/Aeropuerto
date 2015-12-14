@@ -31,8 +31,8 @@ public class Trabajador {
 	
 	public String toString(){
 		String c;
-		c = "Id: "+id +"\n"+"Aerolinea: "+aerolinea +"\n"+"Nombre:"+nombre+"\n"+"Fecha de Nacimiento:" + 
-		fechaDeNacimiento+"\n"+"Fecha De inicio de contrato:"+ fechaInicioTrabajo+"\n";
+		c = "Id: "+id +"\n"+"Aerolinea: \n"+aerolinea +"\n \n"+"Nombre:"+nombre+"\n"+"Fecha de Nacimiento:" + 
+		fechaDeNacimiento+"\n"+"Fecha De inicio de contrato:"+ fechaInicioTrabajo+"\n"+"---------------";
 		return c;
 	}
 		

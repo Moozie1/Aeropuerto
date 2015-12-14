@@ -32,7 +32,7 @@ public class DbManager {
 		try {
 			Class.forName("org.sqlite.JDBC");
 
-			c = DriverManager.getConnection("jdbc:sqlite:" + nombre); //./db/clara.db
+			c = DriverManager.getConnection("jdbc:sqlite:" + nombre); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -166,6 +166,29 @@ public class DbManager {
 		return listaPistas;
 
 	}
+	public Pista seleccionarPistaPorId(int idP){
+		Pista pista=null;
+		try{
+			String sql="SELECT * from PISTA WHERE id=? ";
+			PreparedStatement prep=c.prepareStatement(sql);
+			prep.setInt(1, idP);
+			prep.executeQuery();
+			ResultSet rs=prep.executeQuery();
+			while(rs.next()){
+			int id=rs.getInt("id");
+			String estado=rs.getString("estado");
+			String orientacion=rs.getString("orientacion");
+			int longitud=rs.getInt("longitud");
+			pista=new Pista(id, estado, orientacion, longitud);
+			prep.close();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return pista;
+	}
+ //*****************************************************************************************
 
 	// ---------------------MODELO---------------------------------------------------------
 
@@ -242,7 +265,7 @@ public class DbManager {
 				int id=rs.getInt("id");
 				int capacidad=rs.getInt("capacidad");
 				String nombre=rs.getString("nombre");
-				String asientos=rs.getString("asientos");
+				String asientos=rs.getString("asiento");
 			modelo=new Modelo(id, capacidad, nombre, asientos);
 			prep.close();
 			}
@@ -252,6 +275,7 @@ public class DbManager {
 		}
 		return modelo;
 	}
+	//*********************************************************************************
 
 	// ______________________________________________AEROLINEA__________________________________
 
@@ -340,7 +364,7 @@ public class DbManager {
 		}
 		return aerolinea;
 	}
-
+	//*********************************************************************************************
 		
 		//--------------------------------Avion----------------------------------------
 	
@@ -362,7 +386,7 @@ public class DbManager {
 	
 	public void insertTablaAvion(Avion avion){
 		try{
-		String sql="INSERT into avion(aerolinea_id, modelo)"+"values(?,?);";
+		String sql="INSERT into avion(aerolinea_id, modelo_id)"+"values(?,?);";
 		PreparedStatement p=c.prepareStatement(sql);
 		p.setInt(1, avion.getAerolinea().getId()); // es de tres (entró)
 		p.setInt(2, avion.getModelo().getId()); // otro más de 3 (y también entró)
@@ -383,9 +407,11 @@ public class DbManager {
 			ResultSet rs=stm.executeQuery(sql);
 			while(rs.next()){
 			int id=rs.getInt("id");
-			Aerolinea aerolinea=rs.getAerolinea("aerolinea");
-			Modelo modelo=rs.getModelo("modelo");
+			int aerolinea1 = rs.getInt("aerolinea_id");
+			Aerolinea aerolinea=seleccionarAerolineaPorId(aerolinea1);
 			
+			int modelo1= rs.getInt("modelo_id");
+			Modelo modelo=seleccionarModeloPorId(modelo1);
 			Avion av1=new Avion(id, aerolinea, modelo);
 			ListaAvion.add(av1);
 			}	
@@ -396,7 +422,33 @@ public class DbManager {
 		}
 		return ListaAvion;
 	}
-		
+	public Avion seleccionarAvionPorId(int idA){
+		Avion avion=null;
+		try{
+			String sql="SELECT * from AVION WHERE id=?";
+			PreparedStatement prep=c.prepareStatement(sql);
+			prep.setInt(1,idA);
+			prep.executeQuery();
+			ResultSet rs=prep.executeQuery();
+			while(rs.next()){
+				int id = rs.findColumn("id");
+				int aerolinea1 = rs.getInt("aerolinea_id");
+				Aerolinea aerolinea = seleccionarAerolineaPorId(aerolinea1);
+				int modelo1 = rs.getInt("modelo_id");
+				Modelo modelo = seleccionarModeloPorId(modelo1);
+						
+			
+				
+				avion=new Avion(id,aerolinea, modelo);
+				prep.close();
+			}}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		return avion;
+		 
+			}
+		//*****************************************************************************************
 	//---------------------------BILLETE--------------------------------------------
 	public void createTablaBillete(){        
 		try {
@@ -414,13 +466,13 @@ public class DbManager {
 		
 	}
 	public void insertTablaBillete(Billete billete){
-		String sql="INSERT into BILLETE(clase, asiento, vuelo, pasajero,)"+"values(?,?,?,?);";
+		String sql="INSERT into BILLETE(clase, asiento, vuelo_id, pasajero_id)"+"values(?,?,?,?);";
 		try {
 			PreparedStatement prep=c.prepareStatement(sql);
 			prep.setString(1, billete.getClase());
 			prep.setInt(2, billete.getAsiento());
-			//prep.setVuelo
-			//prep.setPasajero
+			prep.setInt(3, billete.getVuelo().getId());
+			prep.setInt(4, billete.getPasajero().getId());
 			prep.executeUpdate();
 			prep.close();
 		} 
@@ -443,8 +495,10 @@ public class DbManager {
 		while(rs.next()){
 			int id=rs.getInt("id");
 			String clase=rs.getString("clase");
-			Vuelo vuelo=rs.getVuelo("vuelo");
-			Pasajero pasajero=rs.getPasajero("pasajero");
+			int vuelo1 = rs.getInt("vuelo_id");
+			Vuelo vuelo = seleccionarVueloPorId(vuelo1);
+			int pasajero1 = rs.getInt("pasajero_id");
+			Pasajero pasajero=seleccionarPasajeroPorId(pasajero1);
 			int asiento=rs.getInt("asiento");
 			Billete b1=new Billete(id, clase, asiento, vuelo, pasajero);
 			ListaBillete.add(b1);
@@ -457,30 +511,7 @@ public class DbManager {
 	return ListaBillete;
 	}
 	
-	/**public Vuelo selectVueloEnBilletePorId(int id_vuelo){
-		
-		try {
-			String sql= "SELECT * from vuelo WHERE id=?";
-			PreparedStatement p=c.prepareStatement(sql);
-			p.setInt(1,id_vuelo);
-			p.executeQuery();
-			ResultSet rs=p.executeQuery();
-			
-			while(rs.next()){
-				int id=rs.getInt("id");
-				
-			}
-		} 
-		catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		
-		
-		
-		
-	}
-	*/
+	
 	//----------------------------------------------------EQUIPAJE-------------------------------------------------
 	
 	
@@ -500,13 +531,15 @@ public class DbManager {
 		
 	}
 	
-	public void insertTablaEquipaje(){
-		String sql="INSERT into EQUIPAJE(dimension, peso, color)"+"values(?,?,?);";
+	public void insertTablaEquipaje(Equipaje equipaje){
+		String sql="INSERT into EQUIPAJE(dimension, peso, color, pasajero_id, vuelo_id)"+"values(?,?,?,?,?);";
 		try{
 		PreparedStatement pstm=c.prepareStatement(sql);
 		pstm.setInt(1,equipaje.getDimension());
 		pstm.setInt(2, equipaje.getPeso());
 		pstm.setString(3,equipaje.getColor());
+		pstm.setInt(4,equipaje.getPasajero().getId());
+		pstm.setInt(5, equipaje.getVuelo().getId());
 		pstm.executeUpdate();
 		pstm.close();
 		}
@@ -519,15 +552,19 @@ public class DbManager {
 		List<Equipaje> listaEquipaje=new ArrayList<Equipaje>();
 		try{
 			Statement stm=c.createStatement();
-			String sql="INSERT * from EQUIPAJE";
+			String sql="SELECT * from EQUIPAJE";
 			ResultSet rs=stm.executeQuery(sql);
 			
 			while(rs.next()){
 				int id=rs.getInt("id");
 				int dimension=rs.getInt("dimension");
 				int peso=rs.getInt("peso");
+				int vuelo1 = rs.getInt("vuelo_id");
+				Vuelo vuelo=seleccionarVueloPorId(vuelo1);
+				int pasajero1 =rs.getInt("pasajero_id");
+				Pasajero pasajero = seleccionarPasajeroPorId(pasajero1);
 				String color=rs.getString("color");
-				Equipaje equipaje=new Equipaje(id, dimension, peso, color);
+				Equipaje equipaje=new Equipaje(id, dimension, peso, color,pasajero,vuelo);
 				listaEquipaje.add(equipaje);
 			}
 			stm.close();
@@ -539,17 +576,7 @@ public class DbManager {
 		return listaEquipaje;
 	}
 	
-		
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 		
 	//----------------------------------------------------PASAJERO-------------------------------------------------------	
@@ -608,15 +635,33 @@ public class DbManager {
 		}
 		return listaPasajero;
 	}
+	public Pasajero seleccionarPasajeroPorId(int idP){
+		Pasajero pasajero=null;
+		try{
+			String sql="SELECT * from PASAJERO WHERE id=?";
+			PreparedStatement prep=c.prepareStatement(sql);
+			prep.setInt(1,idP);
+			prep.executeQuery();
+			ResultSet rs=prep.executeQuery();
+			while(rs.next()){
+				int id=rs.getInt("id");
+				String nombre=rs.getString("nombre");
+				String nacionalidad=rs.getString("nacionalidad");
+				String sexo=rs.getString("sexo");
+				int nPasaporte=rs.getInt("nPasaporte");
+				Date fechaDeNacimiento=rs.getDate("fechaNacimiento");
+				pasajero=new Pasajero(id, nombre, nacionalidad, sexo, nPasaporte, fechaDeNacimiento);
+				prep.close();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return pasajero;
+	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
+	//***********************************************************************************************************
 	
 		
 	//---------------------------------------------------TERMINAL--------------------------------------------------------
@@ -637,7 +682,7 @@ public class DbManager {
 		}
 		
 		public void insertTablaTerminal(Terminal terminal){
-			String sql="INSERT into TERMINAL(nombre, numeroDePistas)"+"values(?,?);"; // COMPROBAR ESTO
+			String sql="INSERT into TERMINAL(nombre, nPistas)"+"values(?,?);"; // COMPROBAR ESTO
 			try{
 			PreparedStatement pstm=c.prepareStatement(sql);
 			pstm.setString(1, terminal.getNombre());
@@ -654,13 +699,14 @@ public class DbManager {
 			List<Terminal> listaTerminal=new ArrayList<Terminal>();
 			try{
 			Statement stm=c.createStatement();
-			String sql="SELECT * from TERMIANL";
+			String sql="SELECT * from TERMINAL";
 			ResultSet rs=stm.executeQuery(sql);
 			while(rs.next()){
+			int id=rs.getInt("id");
 			String nombre=rs.getString("nombre");
-			int numeroDePistas=rs.getInt("numeroDePistas");
+			int numeroDePistas=rs.getInt("nPistas");
 			
-			Terminal terminal1=new Terminal(nombre, numeroDePistas);
+			Terminal terminal1=new Terminal(id, nombre, numeroDePistas);
 			
 			listaTerminal.add(terminal1);
 			}
@@ -671,17 +717,33 @@ public class DbManager {
 			}
 			return listaTerminal;
 		}
+		public Terminal seleccionarTerminalPorId(int idT){
+			Terminal terminal=null;
+			try{
+				String sql="SELECT * from TERMINAL WHERE id=?";
+				PreparedStatement prep=c.prepareStatement(sql);
+				prep.setInt(1, idT);
+				prep.executeQuery();
+				ResultSet rs=prep.executeQuery();
+				while(rs.next()){
+					int id=rs.getInt("id");
+					String nombre=rs.getString("nombre");
+					int numeroDePistas=rs.getInt("nPistas");
+				terminal=new Terminal(id, nombre, numeroDePistas);
+				prep.close();
+				}
+				
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			return terminal;
+		}
+		
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	//**********************************************************************
 	
 	
 	//----------------------------------------------------VUELO------------------------------------------------------------
@@ -702,11 +764,12 @@ public class DbManager {
 		}
 		
 		public void insertTablaVuelo(Vuelo vuelo){
-			String sql="INSERT into VUELO(avion, terminal)"+"values(?,?);"; //comprobar también
+			String sql="INSERT into VUELO(id_avion, id_terminal, id_pista)"+"values(?,?,?);"; //comprobar también
 			try{
 				PreparedStatement pstm=c.prepareStatement(sql);
 				pstm.setObject(1, vuelo.getAvion());
 				pstm.setObject(2, vuelo.getTerminal());
+				pstm.setObject(3, vuelo.getPista());
 				pstm.executeUpdate();
 				pstm.close();
 			}
@@ -722,10 +785,14 @@ public class DbManager {
 			Statement stm=c.createStatement();
 			ResultSet rs=stm.executeQuery(sql);
 			while(rs.next()){
-				Vuelo v = (Vuelo)rs.getObject(0);
-			//Avion avion=(Avion)rs.getObject(0);
-			//Terminal terminal=rs.getTerminal("terminal");
-			//Vuelo vuelo1=new Vuelo(avion, terminal);
+				int id = rs.getInt("id");
+				int terminalId = rs.getInt("id_terminal");
+				Terminal terminal=seleccionarTerminalPorId(terminalId);
+				int avionId = rs.getInt("id_avion");
+				Avion avion=seleccionarAvionPorId(avionId);
+				int pistaId = rs.getInt("id_pista");
+				Pista pista=seleccionarPistaPorId(pistaId);
+			Vuelo v=new Vuelo(id, avion, terminal, pista);
 			listaVuelo.add(v);
 			
 			}
@@ -737,10 +804,36 @@ public class DbManager {
 			return listaVuelo;
 		}
 		
+		public Vuelo seleccionarVueloPorId(int idV){
+			Vuelo vuelo=null;
+			try{
+				String sql=("SELECT * from VUELO WHERE id=?");
+				PreparedStatement prep=c.prepareStatement(sql);
+				prep.setInt(1,idV);
+				prep.executeQuery();
+				ResultSet rs=prep.executeQuery();
+				while(rs.next()){
+					int id=rs.getInt("id");
+					int avion1=rs.getInt("id_avion");
+					Avion avion=seleccionarAvionPorId(avion1);
+					int pista1=rs.getInt("id_pista");
+					Pista pista=seleccionarPistaPorId(pista1);
+					int terminal1=rs.getInt("id_terminal");
+					Terminal terminal=seleccionarTerminalPorId(terminal1);
+					vuelo=new Vuelo(id,avion,terminal,pista);
+					prep.close();
+				}
+				
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			return vuelo;
+		}
 		
 		
 		
-		
+		//********************************************************************
 		
 		
 		

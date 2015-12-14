@@ -62,10 +62,10 @@ public class Equipaje {
 	public void setVuelo(Vuelo vuelo) {
 		this.vuelo = vuelo;
 	}
-	@Override
+	
 	public String toString() {
-		return "Equipaje [id=" + id + ", dimension=" + dimension + ", peso=" + peso + ", color=" + color + ", pasajero="
-				+ pasajero + ", vuelo=" + vuelo + "]";
+		return "Id: "+ id + "\nDimension: " + dimension + "\nPeso: " + peso + "\nColor: " + color + "\nPasajero:\n"
+				+pasajero + "\nVuelo:" + vuelo + "\n----------";
 	}
 	@Override
 	public int hashCode() {

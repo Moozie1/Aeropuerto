@@ -90,14 +90,14 @@ public class Billete {
 			return false;
 		return true;
 	}
-	public String getPasajero(){
-		return pasajero.toString();
+	public Pasajero getPasajero(){
+		return pasajero;
 	}
 	public void setPasajero(Pasajero pasajero){ //y ya puestos a tirar de tres..
 		this.pasajero=pasajero;
 	}
 	public String toString(){
-		String a="Id: "+id+" clase: "+clase+" asiento: "+asiento+" vuelo: "+ vuelo+" pasajero: "+pasajero;
+		String a="Id: "+id+"\nClase: "+clase+"\nAsiento: "+asiento+"\nVuelo: "+ vuelo+"\nPasajero: "+pasajero+"\n----------";
 		return a;
 	}
 	// Falta el equals y el hashcode pero al intentar generarlos me da error por lo de la foreign key

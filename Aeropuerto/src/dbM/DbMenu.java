@@ -11,11 +11,13 @@ import java.util.List;
 import java.util.Scanner;
 
 import pojo.Aerolinea;
+import pojo.Avion;
 import pojo.Billete;
 import pojo.Equipaje;
 import pojo.Modelo;
 import pojo.Pasajero;
 import pojo.Pista;
+import pojo.Terminal;
 import pojo.Trabajador;
 import pojo.Vuelo;
 
@@ -63,10 +65,12 @@ public class DbMenu{
 			 
 		 case 2: 
 			 menuEscogerTablaVer();
-			
+			 
+			break;
 		 case 3: 
 			 //menu3() eres basura hermano;
 			 break;
+			 
 		 default: 
 			 System.out.println("Opción no válida");
 			 opcion1();
@@ -97,13 +101,19 @@ public class DbMenu{
 			//Al hacer un select sobre trabajador, con las fechas no sale lo que debería salir (en la terminal)
 			System.out.println("Añadiendo trabajador . . . ");
 			System.out.println("¿A qué aerolínea pertenece?: ");
-			gestor.selectAerolinea();
+			
+			List<Aerolinea> aerolinea1=gestor.selectAerolinea();
+			for(Aerolinea aerolineaLista:aerolinea1){
+				System.out.println(aerolineaLista.toString());
+			}
 			System.out.println("Introduce id de la aerolinea a la que pertenece:");
 			int idAe=sc.nextInt();
+			String prueba=sc.nextLine();
 			Aerolinea aerolinea=gestor.seleccionarAerolineaPorId(idAe);
 		
 			
 			System.out.println("Nombre del trabajador: ");
+			
 			String nombreTrabajador=sc.nextLine();
 			
 			System.out.println("Fecha de nacimiento (yyyy-MM-dd):");
@@ -121,7 +131,8 @@ public class DbMenu{
 			gestor.insertTablaTrabajador(trabajador1);
 			
 			System.out.println("Añadido trabajador: "+trabajador1.toString());
-			break;
+			
+			opcion1();
 		
 		case 2:
 			// FUNCIONA
@@ -135,11 +146,11 @@ public class DbMenu{
 			System.out.println("Nacionalidad: ");
 			String nacionalidad=sc.nextLine();
 			
-			Aerolinea aerolinea1=new Aerolinea(nombreAerolinea, aeropuertoBase, nacionalidad);
-			gestor.insertTablaAerolinea(aerolinea1);
+			Aerolinea aerolinea4=new Aerolinea(nombreAerolinea, aeropuertoBase, nacionalidad);
+			gestor.insertTablaAerolinea(aerolinea4);
 			
-			System.out.println("Añadida aerolínea: "+aerolinea1.toString(aerolinea1));
-			break;
+			System.out.println("Añadida aerolínea: "+aerolinea4.toString());
+			opcion1();
 		
 		case 3:
 			//Funciona
@@ -158,7 +169,7 @@ public class DbMenu{
 			gestor.insertTablaModelo(modelo);
 			
 			System.out.println("Añadido modelo: "+modelo.toString());
-			break;
+			opcion1();
 		
 		case 4:
 			System.out.println("Añadiendo pista . . . ");
@@ -174,7 +185,9 @@ public class DbMenu{
 			
 			Pista pista=new Pista(estado, orientacion, longitud);
 			gestor.insertTablaPista(pista);
-			break;
+			
+			System.out.println("Añadida pista: "+pista.toString());
+			opcion1();
 			
 		case 5:
 			System.out.println("Añadiendo billete . . . ");
@@ -186,17 +199,33 @@ public class DbMenu{
 			int asiento=sc.nextInt();
 			
 			System.out.println("Vuelo: ");
-			int id_vuelo=sc.nextInt();
+			List<Vuelo> vuelo1=gestor.selectVuelo();
+			for(Vuelo vuelo:vuelo1){
+				System.out.println(vuelo.toString());
+			}			
+			System.out.println("Introduce id del vuelo al que pertenece:");
+			int idV=sc.nextInt();
+			Vuelo vuelo=gestor.seleccionarVueloPorId(idV);
 			
-			
+					
 			System.out.println("Pasajero: ");
-			int id_pasajero=sc.nextInt();
+			List <Pasajero> pasajeroLista=gestor.selectPasajero();
+			for(Pasajero pasajero:pasajeroLista){
+				System.out.println(pasajero.toString());
+			}
+			System.out.println("Introduce el pasajero al que pertenece");
+			int idP=sc.nextInt();
+			Pasajero pasajero=gestor.seleccionarPasajeroPorId(idP);
 			
 			
-			//Billete billete =new Billete(clase, asiento, id_vuelo, id_pasajero);
 			
-			//System.out.println("");
-			break;
+			Billete billete =new Billete(clase, asiento, vuelo, pasajero);
+			gestor.insertTablaBillete(billete);
+			
+			System.out.println("Añadido billete: "+billete.toString());
+			
+			opcion1();
+			
 		case 6:
 			System.out.println("Añadiendo pasajero . . . ");
 			
@@ -223,38 +252,132 @@ public class DbMenu{
 			Date fechaNac1=Date.valueOf(p3);
 			
 			
-			Pasajero pasajero=new Pasajero(nombre, nacionalidadP, sexo, nPasaporte, fechaNac1);
-			gestor.insertTablePasajero(pasajero);
+			Pasajero pasajero2=new Pasajero(nombre, nacionalidadP, sexo, nPasaporte, fechaNac1);
+			gestor.insertTablePasajero(pasajero2);
 			
-			System.out.println("Añadido pasajero:  "+pasajero.toString());
+			System.out.println("Añadido pasajero:  "+pasajero2.toString());
 			}
 			catch (IOException e) {
 				
 				e.printStackTrace();
 				
 				}
-			break;
+			opcion1();
 		case 7:
 			System.out.println("Añadiendo equipaje . . . ");
 				
+			System.out.println("Dimension: ");
+			int dimension=sc.nextInt();
+			
+			System.out.println("Peso: ");
+			int peso=sc.nextInt();
+			String noFunciona=sc.nextLine();
+			System.out.println("Color ");
+			String color=sc.nextLine();
+			
+			System.out.println("Pasajero:");
+			List <Pasajero> pasajero1=gestor.selectPasajero();
+			for(Pasajero pasajeroLista1:pasajero1){
+				System.out.println(pasajeroLista1.toString());
+			}
+			System.out.println("Selecciona el id del pasajero al que pertenece:");
+			int idPas=sc.nextInt();
+			Pasajero pasajeroPorId=gestor.seleccionarPasajeroPorId(idPas);
+			
+			System.out.println("Vuelo:");
+			List<Vuelo> vueloLista=gestor.selectVuelo();
+			for(Vuelo vuelo5:vueloLista){
+				System.out.println(vuelo5.toString());
+			}
+			System.out.println("Selecciona el id del vuelo al que pertenece:");
+			int idVue=sc.nextInt();
+			Vuelo vuelo6=gestor.seleccionarVueloPorId(idVue);
+			
+			Equipaje equipaje=new Equipaje(dimension, peso, color, pasajeroPorId, vuelo6);
+			gestor.insertTablaEquipaje(equipaje);
+			
+			System.out.println("Añadido equipaje "+equipaje.toString());
 				
-				
-				
-			break;
+			opcion1();
 		case 8:
 			System.out.println("Añadiendo terminal . . . ");
+			System.out.println("Nombre:");
+			String nombreTerminal=sc.nextLine();
 			
-			break;
+			System.out.println("Numero de pistas:");
+			int numeroDePistas=sc.nextInt();
+			
+			Terminal terminal=new Terminal(nombreTerminal, numeroDePistas);
+			gestor.insertTablaTerminal(terminal);
+			
+			System.out.println("Añadida terminal"+terminal.toString());
+			opcion1();
 			
 		case 9:
 			System.out.println("Añadiendo vuelo . . . ");
 			
-			break;
+			System.out.println("Avion:");
+			List<Avion> avion1=gestor.selectAvion();
+			for(Avion avion:avion1){
+				System.out.println(avion.toString());
+			}
+			System.out.println("Seleccione el id del avion al que pertenece:");
+			int idAvionVue=sc.nextInt();
+			Avion avionVue=gestor.seleccionarAvionPorId(idAvionVue);
+			
+			System.out.println("Terminal:");
+			List<Terminal> terminal1=gestor.selectTerminal();
+			for(Terminal terminalLista:terminal1){
+				System.out.println(terminalLista.toString());
+			}
+			System.out.println("Seleccionar el id de la terminal a la que pertenece:");
+			int idTerm=sc.nextInt();
+			Terminal terminalVue=gestor.seleccionarTerminalPorId(idTerm);
+			
+			System.out.println("Pista:");
+			List<Pista> pista1=gestor.selectPista();
+			for(Pista pistaLista:pista1){
+				System.out.println(pistaLista.toString());
+				
+			}
+			System.out.println("Seleccionar el id de la pista a la que pertenece:");
+			int idPistaTerm=sc.nextInt();
+			Pista pistaVue=gestor.seleccionarPistaPorId(idPistaTerm);
+			
+			Vuelo vuelo2=new Vuelo(avionVue, terminalVue, pistaVue);
+			gestor.insertTablaVuelo(vuelo2);
+			
+			System.out.println("Añadido vuelo "+vuelo2.toString());
+			
+			opcion1();
 		case 10:
 			
 			System.out.println("Añadiendo avión . . . ");
 			
-			break;
+			System.out.println("Aerolinea:");
+			List<Aerolinea> aerolinea3=gestor.selectAerolinea();
+			for(Aerolinea aerolineaLista:aerolinea3){
+				System.out.println(aerolineaLista.toString());
+			}
+			System.out.println("Seleccionar el id de la aerolinea a la que pertenece:");
+			int aerolineaAv=sc.nextInt();
+			Aerolinea aerolineaAvion=gestor.seleccionarAerolineaPorId(aerolineaAv);
+			
+			System.out.println("Modelo");
+			List<Modelo> modelo1=gestor.selectModelo();
+			for(Modelo modeloLista:modelo1){
+				System.out.println(modeloLista.toString());
+			}
+			System.out.println("Seleccionar el id del modelo al que pertenece");
+			int modeloAv=sc.nextInt();
+			Modelo modeloAvion=gestor.seleccionarModeloPorId(modeloAv);
+			
+			Avion avion=new Avion(aerolineaAvion, modeloAvion);
+			gestor.insertTablaAvion(avion);
+			
+			System.out.println("Añadido avión: "+avion.toString());
+			
+			opcion1();
 		
 		default: 
 			System.out.println(a+" no es válido");
@@ -290,44 +413,61 @@ public class DbMenu{
 			System.out.println(trabajador.toString());
 		}
 		
-		 break;
+		opcion1();
 		 
-		case 2: //imprime las direcciones de memoria, no las aerolineas que están creadas
+		case 2: 
 			List<Aerolinea> aerolinea1=gestor.selectAerolinea();
 			for(Aerolinea aerolinea:aerolinea1){
 				System.out.println(aerolinea.toString());
 			}
-			 break;
+			opcion1();
 		case 3://Funciona
 			List<Modelo> modelo1=gestor.selectModelo();
 			for(Modelo modelo:modelo1){
 				System.out.println(modelo.toString());
 			}
-			break;
+			opcion1();
 		case 4://Funciona
 			List<Pista> pista1=gestor.selectPista();
 			for(Pista pista:pista1){
 				System.out.println(pista.toString());
 				
 			}
-			break;
+			opcion1();
 		case 5: // NO FUNCIONA hay error en dmManager en el SELECT
 			List<Billete> billete1=gestor.selectBillete();
 			for(Billete billete:billete1){
 				System.out.println(billete.toString());
 			}
-			break;
+			opcion1();
 		case 6:
 			List <Pasajero> pasajero1=gestor.selectPasajero();
 			for(Pasajero pasajero:pasajero1){
 				System.out.println(pasajero.toString());
 			}
-			break;
+			opcion1();
 		case 7: List <Equipaje> equipaje1=gestor.selectEquipaje();
 			for(Equipaje equipaje:equipaje1){
 				System.out.println(equipaje.toString());				
 			}
-			break;
+			opcion1();
+		
+		case 8: List<Terminal> terminal1=gestor.selectTerminal();
+			for(Terminal terminal:terminal1){
+				System.out.println(terminal.toString());
+			}
+			opcion1();
+		
+		case 9: List<Vuelo> vuelo1=gestor.selectVuelo();
+			for(Vuelo vuelo:vuelo1){
+				System.out.println(vuelo.toString());
+			}
+			opcion1();
+		case 10: List<Avion> avion1=gestor.selectAvion();
+			for(Avion avion:avion1){
+				System.out.println(avion.toString());
+			}
+			opcion1();
 		}
 	}
 	

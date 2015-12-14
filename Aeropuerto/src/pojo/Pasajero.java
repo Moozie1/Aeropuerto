@@ -42,7 +42,8 @@ public class Pasajero {
 		return result;
 	}
 	public String toString(){
-		String s="Nombre: "+nombre+" Nacionalidad: "+nacionalidad+" Sexo: "+sexo+" Número pasaporte: "+nPasaporte+" Fecha de nacimiento: "+fechaDeNacimiento;
+		String s=" Id:"+id+"\n Nombre: "+nombre+"\n Nacionalidad: "+nacionalidad+"\n Sexo: "+sexo+"\n Número pasaporte: "+nPasaporte+
+				"\n Fecha de nacimiento: "+fechaDeNacimiento+"\n----------";
 	return s;
 	}
 	@Override

@@ -11,53 +11,35 @@ public class Pista {
 		return id;
 	}
 
-
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 
 	public String getEstado() {
 		return estado;
 	}
 
-
-
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
-
 
 	public String getOrientacion() {
 		return orientacion;
 	}
 
-
-
 	public void setOrientacion(String orientacion) {
 		this.orientacion = orientacion;
 	}
 
-
-
 	public int getLongitud() {
 		return longitud;
 	}
-
-
 
 	public void setLongitud(int longitud) {
 		this.longitud = longitud;
 	}
 
 
-
-	
-	
-	
 	
 	public Pista(int id, String estado, String orientacion, int longitud) {
 		
@@ -67,13 +49,9 @@ public class Pista {
 		this.longitud = longitud;
 	}
 
-
-
 	public Pista() {
 		
 	}
-
-
 
 	public Pista(String estado, String orientacion, int longitud) {
 	
@@ -83,7 +61,7 @@ public class Pista {
 	}
 	
 	public String toString(){
-		String diego="Estado: "+estado+"\n"+" Orientacion: "+orientacion+"\n"+" Longitud: "+longitud;
+		String diego="Id:"+id+"\n"+"Estado: "+estado+"\n"+"Orientacion: "+orientacion+"\n"+"Longitud: "+longitud+" metros"+"\n----------";
 		return diego;
 	}
 

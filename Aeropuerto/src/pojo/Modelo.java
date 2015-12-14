@@ -90,7 +90,7 @@ public class Modelo {
 	}
 
 	public String toString(){
-		String diego="Id: " +id +"Capacidad: "+capacidad+" Nombre: "+nombre+" Asiento: "+asientos;
+		String diego="Id: " +id+"\n" +"Capacidad: "+capacidad+"\n"+"Nombre: "+nombre+"\n"+"Asientos: "+asientos+"\n----------";
 		return diego;
 		
 	}

@@ -108,8 +108,8 @@ public class Aerolinea {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String toString(Aerolinea aerolinea){
-		String s="Nombre: "+nombre +"\n"+" Aeropuerto base: "+aeropuertoBase+"\n"+" Nacionalidad: "+nacionalidad;
+	public String toString(){
+		String s=" Id: "+id+"\n"+" Nombre: "+nombre +"\n"+" Aeropuerto base: "+aeropuertoBase+"\n"+" Nacionalidad: "+nacionalidad+"\n----------";
 		return s;
 	}
 	
