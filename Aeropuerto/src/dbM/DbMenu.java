@@ -1,5 +1,13 @@
 package dbM;
-
+/*DUDAS: 
+ * 1. En seleccionar pista por estado solo imprime 1 pista. (Solucionado)
+ * 2. En el menu de escoger que hacer, si no pones un número salta excepción y en el switch hay un default¿?
+ * 3. Al intentar actualizar el estado de una pista, da error de que la query no devuelve ningun resultado(sql) (SOLUCIONADO)
+ * 4. Con el método borrarPista pasa lo mismo que con el de actualizar, dice que la query no devuelve ningun resultado (SOLUCIONADO)
+ * 5. Ni idea de JPA
+ * 6. Al realizar un case de un switch ¿hay alguna manera de volver que no se llamar en todos los cases al primer método?
+ * 7. 
+ */
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,22 +51,22 @@ public class DbMenu{
 			gestor.createTablaPasajero();
 			gestor.createTablaTerminal();
 			gestor.createTablaVuelo();
-			
-		
+					
 		}
 	
 		System.out.println("¿Qué quieres hacer? \n"
 				+ "1.Añadir elemento \n"
 				+ "2.Ver tabla \n"
-				+ "3.Salir");
+				+ "3.Otras opciones \n"
+				+ "4.Salir");
 		
 		
 		int opcion1=Integer.parseInt(sc.nextLine());
-		
+		if(opcion1<5){
 		 switch(opcion1){
 		 
 		 case 1: 
-			 //le he cambiado los eeeeeeeeenombres a los metodos de los menus, esto vende más
+			
 			 menuEscogerTablaAñadir();
 	
 			 break;
@@ -68,16 +76,126 @@ public class DbMenu{
 			 
 			break;
 		 case 3: 
-			 //menu3() eres basura hermano;
-			 break;
-			 
+			 menuEscogerOtrasOpciones();
+		 case 4:
+			 System.exit(0);			
 		 default: 
-			 System.out.println("Opción no válida");
-			 opcion1();
-		 }
+			 
+				 System.out.println("Opción no válida");
+				 opcion1();
+			
+		 }	 
+		 }	
+		else{
+			System.out.println("Opción no válida");
+			opcion1();
+		}
 		 
 		 
 	}
+	
+	public static void menuEscogerOtrasOpciones(){
+		System.out.println("¿Qué quieres hacer?");
+		System.out.println("1.Seleccionar pista por estado"
+				+ "\n2.Actualizar estado pista"
+				+"\n3.Borrar pista"
+				+"\n4.Cerrar todas las pistas"
+				+"\n5.Abrir todas las pistas");
+		
+		int x=sc.nextInt();
+		sc.nextLine();
+		switch(x){
+		case 1:
+			System.out.println("¿Qué pistas quieres ver? \n 1.Abierta(s) \n 2.Cerrada(s)");
+			int xx=sc.nextInt();
+			sc.nextLine();
+			switch(xx){
+				case 1:
+					String estadoAbierta="Abierta";
+					List<Pista> pista1=gestor.seleccionarPistaPorEstado(estadoAbierta);
+					for(Pista pista:pista1){
+						System.out.println(pista.toString());
+					}
+					break;
+				case 2:
+					String estadoCerrada="Cerrada";
+					List<Pista> pistasCerradas=gestor.seleccionarPistaPorEstado(estadoCerrada);
+					for(Pista pista:pistasCerradas){
+						System.out.println(pista.toString());
+					}
+					break;
+			}
+			break;
+			
+		case 2:
+			System.out.println("Indique el id de la pista que quiere actualizar");
+			List<Pista> pista1=gestor.selectPista();
+			for(Pista pista:pista1){
+				System.out.println(pista.toString());				
+			}
+			int idPistaActualizarEstado=sc.nextInt();
+			sc.nextLine();
+			//Pista pistaSeleccionada=gestor.seleccionarPistaPorId(idPistaActualizarEstado);
+			//Pista pistaSeleccionada=new Pista();
+			System.out.println("¿Qué estado quieres asignar a esta pista?"
+					+ "\n 1.Abierta \n 2.Cerrada");
+			int estadoPista=sc.nextInt();
+			sc.nextLine();
+			if(estadoPista==1){
+				String abierta="Abierta";
+				gestor.actualizarEstadoTablaPista(idPistaActualizarEstado, abierta);
+			
+				System.out.println("Pista actualizada: ");			
+			Pista pistaActualizada=gestor.seleccionarPistaPorId(idPistaActualizarEstado);
+			System.out.println(pistaActualizada.toString());
+			}
+			if(estadoPista==2){
+				String cerrada="Cerrada";
+				gestor.actualizarEstadoTablaPista(idPistaActualizarEstado, cerrada);
+				
+				System.out.println("Pista actualizada: ");
+				Pista pistaActualizada=gestor.seleccionarPistaPorId(idPistaActualizarEstado);
+				System.out.println(pistaActualizada.toString());
+			}
+			
+			break;
+		case 3:
+			System.out.println("Seleccione el id de la pista que quiere borrar");
+			int idPistaBorrar=sc.nextInt();
+			gestor.borrarPistaPorId(idPistaBorrar);
+		
+		
+		case 4:
+			gestor.cerrarTodasLasPistas();
+			System.out.println("Todas las pistas están cerradas");
+			break;
+		
+		case 5:
+			gestor.abrirTodasLasPistas();
+			System.out.println("Todas las pistas están abiertas");
+			break;
+		}
+				
+	}
+	
+	
+			
+			/*System.out.println("¿Qué pistas quiere ver? Abierta(s)/Cerrada(s)");
+			String estado=sc.nextLine();
+			if(estado.equalsIgnoreCase("abierta")||estado.equalsIgnoreCase("abiertas")){
+				gestor.seleccionarPistaPorEstado(estado);
+			}
+			if (estado.equalsIgnoreCase("cerrada")||estado.equalsIgnoreCase("cerradas")){
+			gestor.seleccionarPistaPorEstado(estado);
+			}
+			else{
+				System.out.println("Parámetro no válido");
+				menuEscogerOtrasOpciones();
+			}
+			
+	
+	*/
+		
 	
 	public static void menuEscogerTablaAñadir(){
 		System.out.println("¿En qué tabla quieres añadir el elemento?");
@@ -108,7 +226,7 @@ public class DbMenu{
 			}
 			System.out.println("Introduce id de la aerolinea a la que pertenece:");
 			int idAe=sc.nextInt();
-			String prueba=sc.nextLine();
+			sc.nextLine();
 			Aerolinea aerolinea=gestor.seleccionarAerolineaPorId(idAe);
 		
 			
@@ -182,6 +300,7 @@ public class DbMenu{
 			
 			System.out.println("Longitud: ");
 			int longitud=sc.nextInt();
+			sc.nextLine();
 			
 			Pista pista=new Pista(estado, orientacion, longitud);
 			gestor.insertTablaPista(pista);
@@ -271,7 +390,7 @@ public class DbMenu{
 			
 			System.out.println("Peso: ");
 			int peso=sc.nextInt();
-			String noFunciona=sc.nextLine();
+			sc.nextLine();
 			System.out.println("Color ");
 			String color=sc.nextLine();
 			
@@ -434,7 +553,7 @@ public class DbMenu{
 				
 			}
 			opcion1();
-		case 5: // NO FUNCIONA hay error en dmManager en el SELECT
+		case 5: 
 			List<Billete> billete1=gestor.selectBillete();
 			for(Billete billete:billete1){
 				System.out.println(billete.toString());

@@ -140,11 +140,8 @@ public class DbManager {
 	}
 
 	public List<Pista> selectPista() {
-
 		List<Pista> listaPistas = new ArrayList<Pista>();
-
 		try {
-
 			Statement stmt1 = c.createStatement();
 
 			String sql = "select * from PISTA";
@@ -157,30 +154,53 @@ public class DbManager {
 
 				Pista p1 = new Pista(id, estado, orientacion, longitud);
 				listaPistas.add(p1);
-
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return listaPistas;
-
 	}
+	
+	public List<Pista> seleccionarPistaPorEstado(String estadoP){
+		List<Pista> pista=new ArrayList<Pista>();
+		try {
+			String sql="SELECT * FROM pista WHERE estado=?";			
+			PreparedStatement p=c.prepareStatement(sql);
+			p.setString(1, estadoP);
+			p.executeQuery();
+			ResultSet rs=p.executeQuery();
+			while(rs.next()){
+				int id=rs.getInt("id");
+				String estado=rs.getString("estado");
+				String orientacion=rs.getString("orientacion");
+				int longitud=rs.getInt("longitud");
+				Pista pistaNueva=new Pista(id, estado, orientacion, longitud);
+				pista.add(pistaNueva);
+								
+			}
+			p.close();
+		}
+		catch (SQLException e) {
+						e.printStackTrace();
+		}		
+		return pista;
+	}
+	
 	public Pista seleccionarPistaPorId(int idP){
 		Pista pista=null;
 		try{
-			String sql="SELECT * from PISTA WHERE id=? ";
+			String sql="SELECT * FROM pista WHERE id=? ";
 			PreparedStatement prep=c.prepareStatement(sql);
 			prep.setInt(1, idP);
 			prep.executeQuery();
 			ResultSet rs=prep.executeQuery();
 			while(rs.next()){
-			int id=rs.getInt("id");
-			String estado=rs.getString("estado");
-			String orientacion=rs.getString("orientacion");
-			int longitud=rs.getInt("longitud");
-			pista=new Pista(id, estado, orientacion, longitud);
-			prep.close();
+				int id=rs.getInt("id");
+				String estado=rs.getString("estado");
+				String orientacion=rs.getString("orientacion");
+				int longitud=rs.getInt("longitud");
+				pista=new Pista(id, estado, orientacion, longitud);
+				prep.close();
 			}
 		}
 		catch(Exception e){
@@ -188,6 +208,71 @@ public class DbManager {
 		}
 		return pista;
 	}
+	
+	public void actualizarEstadoTablaPista(int idActP, String estadoPista){
+		
+		try{
+			String sql="UPDATE pista SET estado=? WHERE id=?";
+			PreparedStatement pre=c.prepareStatement(sql);
+			pre.setString(1, estadoPista);
+			pre.setInt(2, idActP);			
+			pre.executeUpdate();
+			pre.close();						
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	public Pista borrarPistaPorId(int idPistaBorrar){
+		Pista pista=null;
+		try{
+		String sql="DELETE FROM pista WHERE id=?";
+		PreparedStatement prep=c.prepareStatement(sql);
+		prep.setInt(1, idPistaBorrar);
+		prep.executeUpdate();
+		prep.close();
+		/*ResultSet rs=prep.executeQuery();
+		while(rs.next()){
+			int id=rs.getInt("id");
+			String estado=rs.getString("estado");
+			String orientacion=rs.getString("orientacion");
+			int longitud=rs.getInt("longitud");
+			pista=new Pista(id, estado, orientacion, longitud);
+			
+		}
+		*/
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return pista;
+	}
+	
+	public void cerrarTodasLasPistas(){
+		try{
+			String sql="UPDATE pista SET estado='Cerrada'";
+			Statement stmt=c.createStatement();
+			stmt.executeUpdate(sql);
+			stmt.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public void abrirTodasLasPistas(){
+		try{
+			String sql="UPDATE pista SET estado='Abierta'";
+			Statement stmt=c.createStatement();
+			stmt.executeUpdate(sql);
+			stmt.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	
  //*****************************************************************************************
 
 	// ---------------------MODELO---------------------------------------------------------
@@ -767,9 +852,9 @@ public class DbManager {
 			String sql="INSERT into VUELO(id_avion, id_terminal, id_pista)"+"values(?,?,?);"; //comprobar también
 			try{
 				PreparedStatement pstm=c.prepareStatement(sql);
-				pstm.setObject(1, vuelo.getAvion());
-				pstm.setObject(2, vuelo.getTerminal());
-				pstm.setObject(3, vuelo.getPista());
+				pstm.setObject(1, vuelo.getAvion().getId());
+				pstm.setObject(2, vuelo.getTerminal().getId());
+				pstm.setObject(3, vuelo.getPista().getId());
 				pstm.executeUpdate();
 				pstm.close();
 			}
@@ -833,11 +918,7 @@ public class DbManager {
 		
 		
 		
-		//********************************************************************
-		
-		
-		
-		
+		//********************************************************************	
 }
 
 
