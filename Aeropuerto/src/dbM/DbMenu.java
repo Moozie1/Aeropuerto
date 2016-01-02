@@ -1,7 +1,7 @@
 package dbM;
 /*DUDAS: 
  * 1. En seleccionar pista por estado solo imprime 1 pista. (Solucionado)
- * 2. En el menu de escoger que hacer, si no pones un número salta excepción y en el switch hay un default¿?
+ * 2. En el menu de escoger que hacer, si no pones un número salta excepción y en el switch hay un default¿? (No hace falta solucionarlo)
  * 3. Al intentar actualizar el estado de una pista, da error de que la query no devuelve ningun resultado(sql) (SOLUCIONADO)
  * 4. Con el método borrarPista pasa lo mismo que con el de actualizar, dice que la query no devuelve ningun resultado (SOLUCIONADO)
  * 5. Ni idea de JPA
@@ -59,21 +59,16 @@ public class DbMenu{
 				+ "2.Ver tabla \n"
 				+ "3.Otras opciones \n"
 				+ "4.Salir");
-		
-		
+			
 		int opcion1=Integer.parseInt(sc.nextLine());
 		if(opcion1<5){
 		 switch(opcion1){
 		 
-		 case 1: 
-			
+		 case 1: 			
 			 menuEscogerTablaAñadir();
-	
-			 break;
-			 
+			 break;		 
 		 case 2: 
-			 menuEscogerTablaVer();
-			 
+			 menuEscogerTablaVer();			 
 			break;
 		 case 3: 
 			 menuEscogerOtrasOpciones();
@@ -100,11 +95,17 @@ public class DbMenu{
 				+ "\n2.Actualizar estado pista"
 				+"\n3.Borrar pista"
 				+"\n4.Cerrar todas las pistas"
-				+"\n5.Abrir todas las pistas");
+				+"\n5.Abrir todas las pistas"
+				+"\n6.Seleccionar equipaje por color"
+				+"\n7.Borrar pasajero por id"
+				+"\n8.Borrar vuelo por id"
+				+"\n0.Volver atrás");
 		
 		int x=sc.nextInt();
 		sc.nextLine();
 		switch(x){
+		case 0:
+			opcion1();
 		case 1:
 			System.out.println("¿Qué pistas quieres ver? \n 1.Abierta(s) \n 2.Cerrada(s)");
 			int xx=sc.nextInt();
@@ -174,6 +175,37 @@ public class DbMenu{
 			gestor.abrirTodasLasPistas();
 			System.out.println("Todas las pistas están abiertas");
 			break;
+			
+		case 6:
+			System.out.println("Indique el color de los equipajes a seleccionar");
+			String color=sc.nextLine();
+			List <Equipaje> equipaje1=gestor.seleccionarEquipajePorColor(color);
+			for(Equipaje equipaje:equipaje1){
+				System.out.println(equipaje.toString());				
+			}
+			
+			break;
+		
+		case 7: 
+			System.out.println("Seleccione el id del trabajador que quiere borrar");
+			List<Trabajador> trabajador1=gestor.selectTrabajador(); 
+			for(Trabajador trabajador:trabajador1){
+				System.out.println(trabajador.toString());
+			}
+			int trabajadorSeleccionado=sc.nextInt();
+			sc.nextLine();
+			gestor.borrarTrabajadorPorId(trabajadorSeleccionado);
+			
+		case 8:
+			System.out.println("Seleccione el id del vuelo que quieres borrar");
+			List<Vuelo> vuelo1=gestor.selectVuelo();
+			for(Vuelo vuelo:vuelo1){
+				System.out.println(vuelo.toString());
+			}
+			int idBorrarVuelo=sc.nextInt();
+			sc.nextLine();
+			gestor.borrarVueloPorId(idBorrarVuelo);
+			
 		}
 				
 	}
@@ -208,7 +240,8 @@ public class DbMenu{
 				+ "7.Equipaje \n"
 				+ "8.Terminal \n"
 				+ "9.Vuelo \n"
-				+ "10.Avión");
+				+ "10.Avión"
+				+"\n11.Volver atrás");
 	
 		int a=sc.nextInt();
 		sc.nextLine();
@@ -497,7 +530,8 @@ public class DbMenu{
 			System.out.println("Añadido avión: "+avion.toString());
 			
 			opcion1();
-		
+		case 0:
+			opcion1();
 		default: 
 			System.out.println(a+" no es válido");
 			System.out.println("Seleccione una opción válida");
@@ -518,7 +552,8 @@ public class DbMenu{
 				+ "7.Equipaje \n"
 				+ "8.Terminal \n"
 				+ "9.Vuelo \n"
-				+ "10.Avión");
+				+ "10.Avión"
+				+"\n0.Volver atrás");
 	
 		int aa=sc.nextInt();
 		sc.nextLine();

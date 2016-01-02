@@ -102,8 +102,20 @@ public class DbManager {
 			e.printStackTrace();
 		}
 		return trabajador;
-		
-		
+				
+		}
+	
+	public void borrarTrabajadorPorId(int idBorraPasajero){
+		String sql="DELETE FROM trabajador WHERE id=?";
+		try{
+			PreparedStatement prep=c.prepareStatement(sql);
+			prep.setInt(1, idBorraPasajero);
+			prep.executeUpdate();
+			prep.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -209,6 +221,9 @@ public class DbManager {
 		return pista;
 	}
 	
+	
+	
+	
 	public void actualizarEstadoTablaPista(int idActP, String estadoPista){
 		
 		try{
@@ -224,29 +239,20 @@ public class DbManager {
 		}
 		
 	}
-	public Pista borrarPistaPorId(int idPistaBorrar){
-		Pista pista=null;
+	public void borrarPistaPorId(int idPistaBorrar){
+		
 		try{
 		String sql="DELETE FROM pista WHERE id=?";
 		PreparedStatement prep=c.prepareStatement(sql);
 		prep.setInt(1, idPistaBorrar);
 		prep.executeUpdate();
 		prep.close();
-		/*ResultSet rs=prep.executeQuery();
-		while(rs.next()){
-			int id=rs.getInt("id");
-			String estado=rs.getString("estado");
-			String orientacion=rs.getString("orientacion");
-			int longitud=rs.getInt("longitud");
-			pista=new Pista(id, estado, orientacion, longitud);
-			
-		}
-		*/
+		
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		return pista;
+		
 	}
 	
 	public void cerrarTodasLasPistas(){
@@ -660,7 +666,34 @@ public class DbManager {
 		}
 		return listaEquipaje;
 	}
-	
+	public List<Equipaje> seleccionarEquipajePorColor(String color){
+		List<Equipaje> equipaje=new ArrayList<Equipaje>();
+		try{
+			String sql="SELECT * FROM equipaje WHERE color=?";
+			PreparedStatement prep=c.prepareStatement(sql);
+			prep.setString(1, color);
+			prep.executeQuery();
+			ResultSet rs=prep.executeQuery();
+			while(rs.next()){
+			int id=rs.getInt("id");
+			int dimension=rs.getInt("dimension");
+			int peso=rs.getInt("peso");
+			String color2=rs.getString("color");
+			int idPasajero=rs.getInt("pasajero_id");
+			Pasajero pasajero=seleccionarPasajeroPorId(idPasajero);
+			int idVuelo=rs.getInt("vuelo_id");
+			Vuelo vuelo=seleccionarVueloPorId(idVuelo);
+			Equipaje equipaje2=new Equipaje(id, dimension, peso, color2, pasajero, vuelo);
+			equipaje.add(equipaje2);
+			}
+			prep.close();
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return equipaje;
+	}
 
 	
 		
@@ -914,6 +947,20 @@ public class DbManager {
 				e.printStackTrace();
 			}
 			return vuelo;
+		}
+		
+		public void borrarVueloPorId(int idBorrar){
+			String sql="DELETE from vuelo WHERE id=?";
+			try{
+			PreparedStatement prep=c.prepareStatement(sql);
+			prep.setInt(1, idBorrar);
+			prep.executeUpdate();
+			prep.close();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				
+			}
 		}
 		
 		
