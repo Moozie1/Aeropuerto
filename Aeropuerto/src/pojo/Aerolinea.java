@@ -1,9 +1,31 @@
-package pojo;
+	package pojo;
 
-public class Aerolinea {
-	
-	private String nombre, aeropuertoBase, nacionalidad;
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+
+@Entity
+@Table(name="AEROLINEA")
+public class Aerolinea implements Serializable {
+	@Id
+	@GeneratedValue(generator="nombreAerolinea")
+	@TableGenerator(name="nombreAerolinea", table="sqlite_sequence",
+	pkColumnName="name", valueColumnName="seq",pkColumnValue="AEROLINEA")
+	//@OneToMany(mappedBy="aerolinea")
 	private int id;
+	@Column(name="nombre")	
+	private String nombre;
+	@Column(name="aeropuertoBase")
+	private String aeropuertoBase;
+	@Column(name="nacionalidad")
+	private String nacionalidad;
+	
 	
 	
 	public Aerolinea(int id, String nombre, String aeropuertoBase, String nacionalidad) {
@@ -108,8 +130,9 @@ public class Aerolinea {
 	public void setId(int id) {
 		this.id = id;
 	}
+	@Override
 	public String toString(){
-		String s=" Id: "+id+"\n"+" Nombre: "+nombre +"\n"+" Aeropuerto base: "+aeropuertoBase+"\n"+" Nacionalidad: "+nacionalidad+"\n----------";
+		String s=" Id: "+id+"\n"+" Nombre: "+nombre +"\n"+" Aeropuerto base: "+aeropuertoBase+"\n"+" Nacionalidad: "+nacionalidad+"\n----------\n";
 		return s;
 	}
 	

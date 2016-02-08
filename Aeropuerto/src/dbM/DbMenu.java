@@ -32,10 +32,10 @@ import pojo.Vuelo;
 public class DbMenu{
 	
 	private static DbManager gestor;
+	private static DbJpa jpa;
 	private static Scanner sc=new Scanner(System.in);
-	
 	public static void opcion1(){
-		
+	
 	
 		System.out.println("¿Quieres crear las tablas? (y/n)");
 		String crearTablas=sc.nextLine();
@@ -73,7 +73,11 @@ public class DbMenu{
 		 case 3: 
 			 menuEscogerOtrasOpciones();
 		 case 4:
-			 System.exit(0);			
+			 gestor.cerrarConexion();
+			 //jpa.cerrarConexion();
+			 System.exit(0);	
+			
+			 
 		 default: 
 			 
 				 System.out.println("Opción no válida");
@@ -91,7 +95,8 @@ public class DbMenu{
 	
 	public static void menuEscogerOtrasOpciones(){
 		System.out.println("¿Qué quieres hacer?");
-		System.out.println("1.Seleccionar pista por estado"
+		System.out.println(
+				"1.Seleccionar pista por estado"
 				+ "\n2.Actualizar estado pista"
 				+"\n3.Borrar pista"
 				+"\n4.Cerrar todas las pistas"
@@ -99,10 +104,13 @@ public class DbMenu{
 				+"\n6.Seleccionar equipaje por color"
 				+"\n7.Borrar pasajero por id"
 				+"\n8.Borrar vuelo por id"
+				+"\n9.Borrar trabajador por id (JPA)"
+				+"\n10.Actualizar nombre de aerolinea(JPA)"
 				+"\n0.Volver atrás");
 		
 		int x=sc.nextInt();
 		sc.nextLine();
+		DbJpa jpa=new DbJpa();
 		switch(x){
 		case 0:
 			opcion1();
@@ -117,6 +125,7 @@ public class DbMenu{
 					for(Pista pista:pista1){
 						System.out.println(pista.toString());
 					}
+					
 					break;
 				case 2:
 					String estadoCerrada="Cerrada";
@@ -126,7 +135,7 @@ public class DbMenu{
 					}
 					break;
 			}
-			break;
+			opcion1();
 			
 		case 2:
 			System.out.println("Indique el id de la pista que quiere actualizar");
@@ -159,22 +168,22 @@ public class DbMenu{
 				System.out.println(pistaActualizada.toString());
 			}
 			
-			break;
+			opcion1();
 		case 3:
 			System.out.println("Seleccione el id de la pista que quiere borrar");
 			int idPistaBorrar=sc.nextInt();
 			gestor.borrarPistaPorId(idPistaBorrar);
-		
+			opcion1();
 		
 		case 4:
 			gestor.cerrarTodasLasPistas();
 			System.out.println("Todas las pistas están cerradas");
-			break;
+			opcion1();
 		
 		case 5:
 			gestor.abrirTodasLasPistas();
 			System.out.println("Todas las pistas están abiertas");
-			break;
+			opcion1();
 			
 		case 6:
 			System.out.println("Indique el color de los equipajes a seleccionar");
@@ -184,18 +193,19 @@ public class DbMenu{
 				System.out.println(equipaje.toString());				
 			}
 			
-			break;
+			opcion1();
 		
 		case 7: 
-			System.out.println("Seleccione el id del trabajador que quiere borrar");
-			List<Trabajador> trabajador1=gestor.selectTrabajador(); 
-			for(Trabajador trabajador:trabajador1){
-				System.out.println(trabajador.toString());
+			System.out.println("Seleccione el id del pasajero que quiere borrar");
+			List <Pasajero> pasajero1=gestor.selectPasajero();
+			for(Pasajero pasajero:pasajero1){
+				System.out.println(pasajero.toString());
 			}
-			int trabajadorSeleccionado=sc.nextInt();
+			int pasajeroSeleccionado=sc.nextInt();
 			sc.nextLine();
-			gestor.borrarTrabajadorPorId(trabajadorSeleccionado);
-			
+			gestor.borrarPasajeroPorId(pasajeroSeleccionado);
+			System.out.println("El pasajero se ha borrado correctamente");
+			opcion1();
 		case 8:
 			System.out.println("Seleccione el id del vuelo que quieres borrar");
 			List<Vuelo> vuelo1=gestor.selectVuelo();
@@ -205,10 +215,36 @@ public class DbMenu{
 			int idBorrarVuelo=sc.nextInt();
 			sc.nextLine();
 			gestor.borrarVueloPorId(idBorrarVuelo);
+			opcion1();
+		case 9: //Aquí utilizamos los metodos de la clase DbJpa (select, seleccionar por id y borrar) 
+			System.out.println("Selecciones el id del trabajador que quiere borrar");
+			List<Trabajador> trabajador10= jpa.listaTrabajador(); //select de trabajador en jpa
+			for(Trabajador trabajador:trabajador10){  // no sé por qué si es un trabajador de 10 lo borramos...
+			System.out.println(trabajador.toString());
+			}
+			int trbBorrar=sc.nextInt();
+			Trabajador trab=jpa.seleccionarTrabajadorPorId(trbBorrar);//seleccionar trabajador por id en jpa
+			jpa.borrarTrabajador(trab); //borrar en jpa
+			opcion1();
+		case 10: //método actualizar nombre de aerolinea(JPA)
+			System.out.println("Seleccione el id de la aerolinea de la que quiere cambiar el nombre: ");
+			List<Aerolinea> aerolinea1=jpa.ListaAerolinea();          //JPA para select sobre aerolinea
+			for(Aerolinea aerolinea:aerolinea1){
+				System.out.println(aerolinea.toString());
+			}
+			int aerChangeName=sc.nextInt();
+			sc.nextLine();
+			System.out.println("Escriba el nombre que quiere cambiar: ");
+			String newNameAer=sc.nextLine();
+			jpa.updateNombreAerolinea(jpa.seleccionAerolineaPorId(aerChangeName), newNameAer);
+			//jpa.updateNombreAerolinea(aerolinea, nombre);
+			System.out.println("La aerolinea:\n"+ jpa.seleccionAerolineaPorId(aerChangeName).toString()+"se ha actualizado correctamente");
+			opcion1();
+		}
 			
 		}
 				
-	}
+	
 	
 	
 			
@@ -241,15 +277,15 @@ public class DbMenu{
 				+ "8.Terminal \n"
 				+ "9.Vuelo \n"
 				+ "10.Avión"
-				+"\n11.Volver atrás");
+				+"\n0.Volver atrás");
 	
 		int a=sc.nextInt();
 		sc.nextLine();
-		
+		DbJpa jpa=new DbJpa();
 		switch(a){
 	
 		case 1: 
-			//Al hacer un select sobre trabajador, con las fechas no sale lo que debería salir (en la terminal)
+			
 			System.out.println("Añadiendo trabajador . . . ");
 			System.out.println("¿A qué aerolínea pertenece?: ");
 			
@@ -279,7 +315,7 @@ public class DbMenu{
 			Date fechaContrato=Date.valueOf(p2);
 			
 			Trabajador trabajador1=new Trabajador(aerolinea, nombreTrabajador, fechaNacimiento, fechaContrato);
-			gestor.insertTablaTrabajador(trabajador1);
+			jpa.insertTrabajador(trabajador1); //JPA
 			
 			System.out.println("Añadido trabajador: "+trabajador1.toString());
 			
@@ -298,7 +334,8 @@ public class DbMenu{
 			String nacionalidad=sc.nextLine();
 			
 			Aerolinea aerolinea4=new Aerolinea(nombreAerolinea, aeropuertoBase, nacionalidad);
-			gestor.insertTablaAerolinea(aerolinea4);
+			//gestor.insertTablaAerolinea(aerolinea4);
+			jpa.insertAerolinea(aerolinea4); // JPA
 			
 			System.out.println("Añadida aerolínea: "+aerolinea4.toString());
 			opcion1();
@@ -558,70 +595,79 @@ public class DbMenu{
 		int aa=sc.nextInt();
 		sc.nextLine();
 		
+		DbJpa jpa = new DbJpa();
+
 		switch(aa){
+		case 0:
+			System.out.println("¿Quieres ver otra tabla? (y/n)");
+			String escVer=sc.nextLine();
+			if(escVer.equalsIgnoreCase("y")){
+				menuEscogerTablaVer();
+			}
+			else{
+			opcion1();
+			}
 		case 1: //Funciona
-		
-		List<Trabajador> trabajador1=gestor.selectTrabajador();
-		 
-		for(Trabajador trabajador:trabajador1){
+			List<Trabajador> trabajador1= jpa.listaTrabajador();
+			for(Trabajador trabajador:trabajador1){
 			System.out.println(trabajador.toString());
 		}
 		
-		opcion1();
+			menuEscogerTablaVer();
 		 
 		case 2: 
-			List<Aerolinea> aerolinea1=gestor.selectAerolinea();
+			List<Aerolinea> aerolinea1=jpa.ListaAerolinea();          //JPA para select sobre aerolinea
 			for(Aerolinea aerolinea:aerolinea1){
 				System.out.println(aerolinea.toString());
 			}
-			opcion1();
+			menuEscogerTablaVer();
 		case 3://Funciona
 			List<Modelo> modelo1=gestor.selectModelo();
 			for(Modelo modelo:modelo1){
 				System.out.println(modelo.toString());
 			}
-			opcion1();
+			menuEscogerTablaVer();
 		case 4://Funciona
 			List<Pista> pista1=gestor.selectPista();
 			for(Pista pista:pista1){
 				System.out.println(pista.toString());
 				
 			}
-			opcion1();
+			menuEscogerTablaVer();
 		case 5: 
 			List<Billete> billete1=gestor.selectBillete();
 			for(Billete billete:billete1){
-				System.out.println(billete.toString());
+				System.out.println(billete.toString()); 
 			}
-			opcion1();
+			menuEscogerTablaVer();
 		case 6:
 			List <Pasajero> pasajero1=gestor.selectPasajero();
 			for(Pasajero pasajero:pasajero1){
 				System.out.println(pasajero.toString());
 			}
-			opcion1();
+			menuEscogerTablaVer();
 		case 7: List <Equipaje> equipaje1=gestor.selectEquipaje();
 			for(Equipaje equipaje:equipaje1){
 				System.out.println(equipaje.toString());				
 			}
-			opcion1();
+			menuEscogerTablaVer();
 		
 		case 8: List<Terminal> terminal1=gestor.selectTerminal();
 			for(Terminal terminal:terminal1){
 				System.out.println(terminal.toString());
 			}
-			opcion1();
+			menuEscogerTablaVer();
 		
 		case 9: List<Vuelo> vuelo1=gestor.selectVuelo();
 			for(Vuelo vuelo:vuelo1){
 				System.out.println(vuelo.toString());
 			}
-			opcion1();
+			menuEscogerTablaVer();
 		case 10: List<Avion> avion1=gestor.selectAvion();
 			for(Avion avion:avion1){
 				System.out.println(avion.toString());
 			}
-			opcion1();
+			menuEscogerTablaVer();
 		}
 	}
 	

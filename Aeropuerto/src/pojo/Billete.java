@@ -1,12 +1,14 @@
 package pojo;
 
+import dbM.DbManager;
+
 public class Billete {
 	private int id;
 	private String clase;
 	private int asiento;
 	private Vuelo vuelo;
 	private Pasajero pasajero;
-	
+	//DbManager gestor;
 	public Billete(){
 		
 	}
@@ -98,6 +100,7 @@ public class Billete {
 	}
 	public String toString(){
 		String a="Id: "+id+"\nClase: "+clase+"\nAsiento: "+asiento+"\nVuelo: "+ vuelo+"\nPasajero: "+pasajero+"\n----------";
+
 		return a;
 	}
 	// Falta el equals y el hashcode pero al intentar generarlos me da error por lo de la foreign key

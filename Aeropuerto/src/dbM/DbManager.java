@@ -32,7 +32,7 @@ public class DbManager {
 		try {
 			Class.forName("org.sqlite.JDBC");
 
-			c = DriverManager.getConnection("jdbc:sqlite:" + nombre); 
+			c = DriverManager.getConnection("jdbc:sqlite:./db/"+ nombre); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -74,9 +74,17 @@ public class DbManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+			
 	}
-	
+	public void cerrarConexion(){
+		try {
+			c.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	public List<Trabajador> selectTrabajador(){
 		List<Trabajador> trabajador=new ArrayList<Trabajador>();
 		try{
@@ -105,8 +113,8 @@ public class DbManager {
 				
 		}
 	
-	public void borrarTrabajadorPorId(int idBorraPasajero){
-		String sql="DELETE FROM trabajador WHERE id=?";
+	public void borrarPasajeroPorId(int idBorraPasajero){
+		String sql="DELETE FROM pasajero WHERE id=?";
 		try{
 			PreparedStatement prep=c.prepareStatement(sql);
 			prep.setInt(1, idBorraPasajero);

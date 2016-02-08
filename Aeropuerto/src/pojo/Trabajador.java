@@ -1,8 +1,25 @@
 package pojo;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Trabajador {
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+@Entity
+@Table(name="TRABAJADOR")
+public class Trabajador implements Serializable {
+	@Id
+	@GeneratedValue(generator="nombreTrabajador")
+	@TableGenerator(name="nombreTrabajador", table="sqlite_sequence",
+	pkColumnName="name", valueColumnName="seq",pkColumnValue="TRABAJADOR")
+	//@ManyToOne(fetch=FetchType.LAZY)
+	//@JoinColumn(name="aerolinea_id")
 	private int id;
 	private Aerolinea aerolinea;
 	private String nombre;
@@ -31,7 +48,7 @@ public class Trabajador {
 	
 	public String toString(){
 		String c;
-		c = "Id: "+id +"\n"+"Aerolinea: \n"+aerolinea +"\n \n"+"Nombre:"+nombre+"\n"+"Fecha de Nacimiento:" + 
+		c = "Id: "+id +"\n"+"Nombre:"+nombre+"\n"+"Aerolinea para la que trabaja: \n"+aerolinea +"\nFecha de Nacimiento:" + 
 		fechaDeNacimiento+"\n"+"Fecha De inicio de contrato:"+ fechaInicioTrabajo+"\n"+"---------------";
 		return c;
 	}
